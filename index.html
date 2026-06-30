@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<title>On Service — The Intern Field Guide</title>
+<style>
+  :root{
+    --bg:#0b1220;
+    --bg2:#0f172a;
+    --panel:#111c30;
+    --card:#15233c;
+    --card2:#1b2c49;
+    --line:#243a5e;
+    --ink:#eaf1fb;
+    --muted:#9fb3d1;
+    --faint:#67809f;
+    --teal:#2dd4bf;
+    --teal-d:#0d9488;
+    --blue:#60a5fa;
+    --amber:#fbbf24;
+    --rose:#fb7185;
+    --green:#34d399;
+    --violet:#a78bfa;
+    --shadow:0 14px 40px rgba(0,0,0,.45);
+    --shadow-sm:0 4px 14px rgba(0,0,0,.30);
+    --r:16px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,sans-serif;
+    background:
+      radial-gradient(1100px 520px at 50% -8%, #16294a 0%, transparent 60%),
+      linear-gradient(180deg,var(--bg) 0%, var(--bg2) 100%);
+    color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;
+  }
+  .app{max-width:680px;margin:0 auto;padding:0 16px calc(96px + env(safe-area-inset-bottom));position:relative}
+  a{color:var(--teal)}
+
+  /* ---------- header ---------- */
+  .hd{position:sticky;top:0;z-index:30;margin:0 -16px;padding:14px 16px 10px;
+    background:linear-gradient(180deg,#0b1220 76%, rgba(11,18,32,0));backdrop-filter:blur(6px)}
+  .hd-row{display:flex;align-items:center;gap:11px}
+  .logo{width:40px;height:40px;border-radius:12px;flex:none;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--teal),var(--blue));box-shadow:var(--shadow-sm);font-size:21px}
+  .hd-t{font-weight:850;font-size:18px;letter-spacing:.2px;line-height:1.05}
+  .hd-s{font-size:11.5px;color:var(--muted);font-weight:600;margin-top:2px}
+  .hd-prog{margin-left:auto;text-align:right}
+  .hd-prog b{font-size:15px;color:var(--teal)}
+  .hd-prog small{display:block;font-size:10px;color:var(--faint);font-weight:700;text-transform:uppercase;letter-spacing:.6px}
+
+  /* ---------- tabs ---------- */
+  .tabs{display:flex;gap:6px;margin:6px -16px 4px;padding:4px 16px 10px;overflow-x:auto;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:none;border:1px solid var(--line);background:var(--panel);color:var(--muted);
+    padding:8px 14px;border-radius:999px;font-weight:750;font-size:13px;cursor:pointer;transition:.15s;white-space:nowrap}
+  .tab.on{background:linear-gradient(135deg,var(--teal-d),#1e6f9c);border-color:transparent;color:#eafffb}
+  .tab:active{transform:scale(.96)}
+
+  /* ---------- generic card ---------- */
+  .card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);
+    border-radius:var(--r);padding:16px;margin-bottom:13px;box-shadow:var(--shadow-sm)}
+  .eyebrow{font-size:10.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--teal)}
+  h2.sec{font-size:20px;font-weight:850;margin:4px 0 2px}
+  .lede{color:var(--muted);font-size:13.5px;line-height:1.5;margin:8px 0 0}
+
+  /* ---------- lesson list cards ---------- */
+  .lcard{cursor:pointer;position:relative;overflow:hidden}
+  .lcard:active{transform:scale(.985)}
+  .lcard .day{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;
+    color:var(--blue);letter-spacing:.4px;text-transform:uppercase}
+  .lcard h3{margin:8px 0 4px;font-size:17.5px;font-weight:820;line-height:1.18}
+  .lcard p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+  .lcard .meta{display:flex;align-items:center;gap:10px;margin-top:11px;font-size:11.5px;color:var(--faint);font-weight:650}
+  .pill{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+  .pill.done{color:#04241d;background:var(--green);border-color:transparent}
+  .chev{position:absolute;right:14px;bottom:14px;color:var(--faint);font-size:20px}
+
+  /* ---------- reading view ---------- */
+  .article h1{font-size:23px;font-weight:860;line-height:1.15;margin:2px 0 2px}
+  .article .sub{color:var(--muted);font-size:12px;font-weight:700;letter-spacing:.3px;margin-bottom:14px}
+  .article h4{font-size:15.5px;font-weight:820;margin:20px 0 8px;color:#fff;display:flex;gap:8px;align-items:center}
+  .article h4 .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);flex:none}
+  .article p{font-size:14.5px;line-height:1.62;color:#dbe6f5;margin:0 0 11px}
+  .article p strong, .article li strong{color:#fff}
+  .article ul{margin:0 0 12px;padding-left:2px;list-style:none}
+  .article ul li{position:relative;padding-left:20px;font-size:14px;line-height:1.55;color:#d3deef;margin-bottom:8px}
+  .article ul li::before{content:"";position:absolute;left:3px;top:8px;width:6px;height:6px;border-radius:50%;
+    background:var(--blue)}
+  .step{display:flex;gap:12px;margin:0 0 11px;padding:12px 13px;background:#0e1b30;border:1px solid var(--line);border-radius:13px}
+  .step .n{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-weight:850;font-size:13px;
+    background:linear-gradient(135deg,var(--teal-d),#1e6f9c);color:#eafffb}
+  .step .b{font-size:13.5px;line-height:1.5;color:#d8e3f3}
+  .step .b b{color:#fff}
+  .quote{border-left:3px solid var(--teal);background:#0e1b30;border-radius:0 12px 12px 0;
+    padding:11px 14px;margin:0 0 12px;font-size:13.5px;line-height:1.55;color:#cfe}
+  .callout{border:1px solid var(--line);border-radius:13px;padding:12px 14px;margin:14px 0;background:#0e1b30}
+  .callout .ttl{font-size:11px;font-weight:850;letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px}
+  .callout.good{border-color:#1f5e44}.callout.good .ttl{color:var(--green)}
+  .callout.bad{border-color:#6b2a36}.callout.bad .ttl{color:var(--rose)}
+  .callout p{font-size:13px;margin:0 0 8px}.callout p:last-child{margin:0}
+
+  .backbar{display:flex;align-items:center;gap:10px;margin:2px 0 12px}
+  .btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);font-weight:750;
+    padding:9px 14px;border-radius:11px;font-size:13px;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:7px}
+  .btn:active{transform:scale(.96)}
+  .btn.primary{background:linear-gradient(135deg,var(--teal-d),#1e6f9c);border-color:transparent;color:#eafffb}
+  .btn.full{width:100%;justify-content:center;padding:13px}
+
+  /* ---------- scenario engine ---------- */
+  .scard{cursor:pointer}
+  .scard:active{transform:scale(.985)}
+  .scard .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .tag{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+  .tag.sys{color:var(--violet);border-color:#3a3263}
+  .tag.diff{color:var(--amber);border-color:#5e4a1f}
+
+  .demo{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--faint);margin-top:11px;font-weight:650}
+  .demo .difficulty{display:flex;gap:3px}
+  .demo .difficulty i{width:7px;height:7px;border-radius:50%;background:var(--line)}
+  .demo .difficulty i.on{background:var(--amber)}
+
+  /* ---------- acuity filter ---------- */
+  .filterbar{display:flex;gap:6px;margin:0 0 13px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:5px}
+  .fb{flex:1;border:none;background:transparent;color:var(--muted);border-radius:10px;padding:8px 4px;font-weight:780;font-size:12.5px;cursor:pointer;transition:.15s;display:flex;flex-direction:column;align-items:center;gap:2px}
+  .fb small{font-size:10px;font-weight:800;opacity:.65}
+  .fb:active{transform:scale(.95)}
+  .fb.on{color:#fff}
+  .fb.on[data-ac="0"]{background:linear-gradient(135deg,var(--teal-d),#1e6f9c)}
+  .fb.on[data-ac="1"]{background:#1f5e44}
+  .fb.on[data-ac="2"]{background:#5e4a1f}
+  .fb.on[data-ac="3"]{background:#5b2230}
+  .tag.acu1{color:var(--green);border-color:#1f5e44}
+  .tag.acu2{color:var(--amber);border-color:#5e4a1f}
+  .tag.acu3{color:var(--rose);border-color:#6b2a36}
+
+  /* ---------- memory hook ---------- */
+  .hookchip{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;border:1px solid #3a3263;color:var(--violet);background:#15102a}
+  .hook{display:flex;gap:10px;align-items:flex-start;border:1px solid #3a3263;background:#15102a;border-radius:13px;padding:12px 13px;margin:0 0 13px}
+  .hook .hi{font-size:20px;flex:none;line-height:1}
+  .hook .ht{font-size:10.5px;font-weight:850;letter-spacing:.8px;text-transform:uppercase;color:var(--violet);margin-bottom:3px}
+  .hook .hb{font-size:13px;line-height:1.5;color:#e6e0f6}
+  .hook .hb b{color:#fff}
+
+  .chartrow{display:flex;gap:11px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .chartrow:last-child{border-bottom:none}
+  .chartrow .ic{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:15px;
+    background:#0e1b30;border:1px solid var(--line)}
+  .chartrow .lbl{font-size:10px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--faint)}
+  .chartrow .val{font-size:13.5px;line-height:1.5;color:#dbe6f5;margin-top:2px}
+  .chartrow .val b{color:#fff}
+  .flag{color:var(--rose);font-weight:800}
+
+  .reveal{border:1px dashed var(--line);border-radius:13px;padding:14px;margin:12px 0;text-align:center;
+    color:var(--muted);font-size:13px;cursor:pointer;transition:.15s;background:#0d1730}
+  .reveal:active{transform:scale(.98)}
+  .reveal b{color:var(--teal)}
+
+  .answer{border:1px solid #1f5e44;background:#0c1f1a;border-radius:13px;padding:14px;margin:12px 0}
+  .answer .ttl{font-size:11px;font-weight:850;letter-spacing:.8px;text-transform:uppercase;color:var(--green);margin-bottom:8px;display:flex;align-items:center;gap:7px}
+  .answer p{font-size:13.5px;line-height:1.6;margin:0 0 9px;color:#dcefe7}
+  .answer p:last-child{margin:0}
+  .answer .oneliner{font-style:italic;color:#fff;font-size:14px;border-left:3px solid var(--green);padding-left:11px;margin:0 0 11px}
+
+  .wlist{list-style:none;margin:6px 0 0;padding:0}
+  .wlist li{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #14243d;font-size:13.5px;line-height:1.5;color:#d8e3f3}
+  .wlist li:last-child{border-bottom:none}
+  .wlist li .k{flex:none;color:var(--teal);font-weight:850}
+  .ddx li .k{color:var(--amber)}
+  .cf li .k{color:var(--rose)}
+
+  .selfgrade{display:flex;gap:8px;margin-top:6px}
+  .sg{flex:1;text-align:center;border:1px solid var(--line);background:var(--panel);border-radius:11px;
+    padding:11px 8px;font-weight:780;font-size:13px;cursor:pointer;transition:.15s}
+  .sg:active{transform:scale(.96)}
+  .sg.miss.on{background:#5b2230;border-color:transparent;color:#ffd9e0}
+  .sg.partial.on{background:#5e4a1f;border-color:transparent;color:#ffe9bd}
+  .sg.got.on{background:#1f5e44;border-color:transparent;color:#d6ffe9}
+
+  /* ---------- toolkit ---------- */
+  .tk h4{font-size:13.5px;font-weight:820;margin:0 0 9px;color:#fff;display:flex;gap:8px;align-items:center}
+  .copybtn{margin-left:auto;font-size:11px;font-weight:750;color:var(--teal);border:1px solid var(--line);
+    background:#0e1b30;border-radius:8px;padding:4px 9px;cursor:pointer}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.55;color:#cfe0f5;
+    background:#0a1424;border:1px solid var(--line);border-radius:11px;padding:12px;white-space:pre-wrap;overflow-x:auto}
+  .checkline{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #14243d;font-size:13.5px;color:#d8e3f3;line-height:1.45}
+  .checkline:last-child{border-bottom:none}
+  .checkline .m{flex:none;width:22px;height:22px;border-radius:7px;background:#0e1b30;border:1px solid var(--line);
+    display:grid;place-items:center;font-weight:850;font-size:11px;color:var(--teal)}
+
+  /* ---------- tips accordion ---------- */
+  .acc{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:10px;
+    background:linear-gradient(180deg,var(--card),var(--card2));box-shadow:var(--shadow-sm)}
+  .acc-h{display:flex;align-items:center;gap:11px;padding:13px 14px;cursor:pointer;user-select:none}
+  .acc-h:active{background:#0e1b30}
+  .acc-h .ai{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:18px;flex:none;
+    background:#0e1b30;border:1px solid var(--line)}
+  .acc-h .at{font-weight:820;font-size:15px}
+  .acc-h .ac{margin-left:auto;font-size:11px;font-weight:800;color:var(--faint);background:#0e1b30;border:1px solid var(--line);
+    border-radius:999px;padding:2px 9px}
+  .acc-h .arr{color:var(--faint);transition:.2s;font-size:19px;font-weight:700}
+  .acc.open .arr{transform:rotate(90deg)}
+  .acc-body{display:none;padding:0 14px 8px}
+  .acc.open .acc-body{display:block;animation:fade .22s ease}
+  .tip{display:flex;gap:11px;padding:11px 0;border-top:1px solid #14243d}
+  .tip .tn{flex:none;color:var(--teal);font-size:15px;line-height:1.4;font-weight:800}
+  .tip .tt{font-size:14px;line-height:1.56;color:#d6e1f1}
+  .tip .tt b{color:#fff}
+
+  /* ---------- bottom nav ---------- */
+  .bnav{position:fixed;left:0;right:0;bottom:0;z-index:40;
+    background:linear-gradient(180deg,rgba(11,18,32,0),#0b1220 28%);padding:10px 14px calc(12px + env(safe-area-inset-bottom))}
+  .bnav-in{max-width:680px;margin:0 auto;display:flex;gap:7px;background:var(--panel);border:1px solid var(--line);
+    border-radius:16px;padding:6px;box-shadow:var(--shadow)}
+  .nb{flex:1;border:none;background:transparent;color:var(--muted);border-radius:11px;padding:8px 4px;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;font-weight:800;transition:.15s}
+  .nb .ni{font-size:18px}
+  .nb.on{background:linear-gradient(135deg,var(--teal-d),#1e6f9c);color:#eafffb}
+  .nb:active{transform:scale(.95)}
+
+  .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);z-index:60;
+    background:#0c1f1a;border:1px solid #1f5e44;color:#d6ffe9;padding:10px 16px;border-radius:12px;font-weight:750;
+    font-size:13px;opacity:0;pointer-events:none;transition:.25s;box-shadow:var(--shadow)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  .footer{text-align:center;color:var(--faint);font-size:11px;line-height:1.6;margin:18px 4px 4px}
+  .fade{animation:fade .28s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media print{.bnav,.tabs,.hd,.backbar{display:none}.app{max-width:none}body{background:#fff;color:#000}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hd">
+    <div class="hd-row">
+      <div class="logo">🩺</div>
+      <div>
+        <div class="hd-t">On Service</div>
+        <div class="hd-s">The Intern Field Guide</div>
+      </div>
+      <div class="hd-prog">
+        <b id="progNum">0/3</b>
+        <small>Lessons</small>
+      </div>
+    </div>
+  </div>
+
+  <div id="view"></div>
+
+  <div class="footer">
+    Educational content · not a substitute for clinical judgment or institutional policy.<br>
+    Built for intern year. Works offline. Share the link with your co-interns.
+  </div>
+</div>
+
+<div class="bnav">
+  <div class="bnav-in">
+    <button class="nb on" data-tab="learn"><span class="ni">📖</span>Lessons</button>
+    <button class="nb" data-tab="cases"><span class="ni">🧩</span>Workups</button>
+    <button class="nb" data-tab="tips"><span class="ni">💡</span>Tips</button>
+    <button class="nb" data-tab="tools"><span class="ni">🧰</span>Toolkit</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+/* ============================================================
+   On Service — single-file intern field guide
+   ============================================================ */
+
+/* ---------------- LESSON CONTENT ---------------- */
+const LESSONS = [
+  {
+    id:"d01", day:"Day 01 · Foundations", read:"6 min read",
+    title:"The 7-Minute Pre-Round",
+    blurb:"A time-anchored routine that turns a chart full of data into a story with a plan and a question.",
+    body:`
+<h4><span class="dot"></span>Why this matters</h4>
+<p>An attending forms an opinion about you in the first three seconds of presentation. Most of what they're reading is whether you actually know your patient. The pre-round is where you earn that.</p>
+<p>It's also where you learn medicine. The chart at 6 AM is where you discover that the patient who looked fine at sign-out is now sneakily oliguric, that the K has crept from 4.1 to 5.6 over three days, that the night nurse noted "patient up all night, anxious about going home" — and that's the missing piece in the discharge plan.</p>
+<p>Most interns pre-round badly because nobody teaches them how. There is a better way, and it takes seven minutes per patient. By June you'll do it in five. By PGY-2, three.</p>
+
+<h4><span class="dot"></span>The 7-minute framework</h4>
+<div class="step"><div class="n">1</div><div class="b"><b>Vitals trend.</b> Pull the last 24 h, not the latest reading. Better or worse? The patient whose HR crept 78→102 over six hours is the one to think about before rounds.</div></div>
+<div class="step"><div class="n">2</div><div class="b"><b>I/Os and weights.</b> They tell you about fluid status faster than your exam. +3 L over 24 h with 1.5 kg gain and crackles is trouble even if vitals are fine. Trend across days.</div></div>
+<div class="step"><div class="n">3</div><div class="b"><b>Overnight events &amp; nursing comments.</b> Open the free-text nursing note. "Up all night, anxious, refused 0300 vitals" beats the documented BP. If the nurse wrote "concerning," go see the patient now.</div></div>
+<div class="step"><div class="n">4</div><div class="b"><b>The MAR, not the order list.</b> Orders show intent; the MAR shows reality — refused meds, late meds, six PRN morphine doses overnight, the AM antihypertensive declined three days running.</div></div>
+<div class="step"><div class="n">5</div><div class="b"><b>New labs &amp; imaging, trended.</b> Open trend graphs for Cr, lytes, Hgb, troponin, lactate, WBC. For imaging, read the impression line — not the whole report.</div></div>
+<div class="step"><div class="n">6</div><div class="b"><b>Plan check.</b> What was outstanding yesterday? Did the consult come? Did the procedure happen? Was the family meeting scheduled? This loop-closure separates organized interns from chaotic ones.</div></div>
+<div class="step"><div class="n">7</div><div class="b"><b>See the patient.</b> Thirty seconds at bedside. The IVs, the lines, the affect, the half-eaten breakfast, the Foley that's still in despite being d/c'd in orders.</div></div>
+
+<h4><span class="dot"></span>Order of operations</h4>
+<p>When you have 10 patients and 70 minutes:</p>
+<ul>
+<li><b>Sickest first</b> — the one most likely to crash before the one going home.</li>
+<li><b>Discharges next</b> — they need orders early so case management, PT, and pharmacy can move.</li>
+<li><b>Then the rest in presentation order</b> — usually geographic, to match how you'll round.</li>
+<li><b>The well, stable patient last</b> — easiest to recover if you run short on time.</li>
+</ul>
+
+<h4><span class="dot"></span>Worked example — Mr. Patel, hospital day 2</h4>
+<div class="quote">72M, HTN, prior MI 2018 with DES to LAD. Admitted day 2 for community-acquired pneumonia.</div>
+<ul>
+<li><b>Vitals:</b> Tmax 38.1 (down from 38.9). HR 78–88. BP stable. SpO₂ 96% on 2L, weaned from 4L.</li>
+<li><b>I/O:</b> +400 over 24 h, down from +1200. UOP adequate.</li>
+<li><b>Overnight:</b> Slept 5 h. No PRN antipyretics. Nurse: "asked when he can go home."</li>
+<li><b>MAR:</b> Ceftriaxone + azithro on time. Took home metoprolol. Refused 0200 vitals.</li>
+<li><b>Labs:</b> WBC 11.2 (was 14.1). Cr 1.1 stable. K 3.9. Trop neg ×2.</li>
+<li><b>Plan check:</b> ID signed off. PT eval still pending.</li>
+<li><b>Bedside:</b> Looks better. Eating breakfast. Wife at bedside.</li>
+</ul>
+<div class="callout good"><div class="ttl">The one-liner it produces</div><p>"Day 2 CAP, clinically improving, weaned to 2L, off antipyretics, anticipated discharge tomorrow pending PT clearance."</p><p>You found something to act on (page PT at 0700), a question for the attending (follow-up CXR before discharge?), and a social piece (wife at bedside for discharge teaching today). Not a stack of data — a story with a plan and a question.</p></div>
+
+<h4><span class="dot"></span>Common mistakes</h4>
+<ul>
+<li><b>Reading every note.</b> Read your own A&amp;P from yesterday plus new notes. That's it.</li>
+<li><b>Chasing the latest lab.</b> Cr 1.4 is meaningless without where it was three days ago.</li>
+<li><b>Ignoring nursing comments.</b> They had 12 hours; you'll have 30 seconds.</li>
+<li><b>Trusting the order list, not the MAR.</b> The MAR is reality.</li>
+<li><b>Building the list in your head.</b> Memory fails after patient #4. Carry paper.</li>
+</ul>
+
+<h4><span class="dot"></span>Calibration</h4>
+<p>Pre-rounding is the single most important skill of intern year. The fast intern isn't reading less carefully — they have a structure and run it consistently. You will not be the fast intern in July. Nobody is. Be the disciplined intern. The speed follows.</p>
+`
+  },
+  {
+    id:"d02", day:"Day 02 · Foundations", read:"5 min read",
+    title:"The 90-Second Presentation",
+    blurb:"Same clinical reality, a quarter of the time. A structure that works from the 6 AM Sunday table-round to grand rounds.",
+    body:`
+<h4><span class="dot"></span>Why this matters</h4>
+<p>Your attending has 20–40 minutes and 8–15 patients — 90 to 120 seconds per known patient. Take four minutes on one and you've stolen time from another patient, from teaching, and from lunch.</p>
+<p>A well-structured presentation signals that you understand the patient. A poor one signals the opposite, even when your medical thinking is fine. Attendings can't read your mind — only what comes out of your mouth.</p>
+
+<h4><span class="dot"></span>The framework (known patient)</h4>
+<div class="step"><div class="n">1</div><div class="b"><b>ID</b> (5s) — "Mr. Patel is a 72-year-old man with HTN and prior MI, admitted day 2 for CAP."</div></div>
+<div class="step"><div class="n">2</div><div class="b"><b>One-liner</b> (10s) — the summary sentence that gets to the current state. "Clinically improving, weaning O₂, anticipated discharge tomorrow."</div></div>
+<div class="step"><div class="n">3</div><div class="b"><b>Overnight events</b> (15–20s) — significant events or "uneventful." Don't manufacture content.</div></div>
+<div class="step"><div class="n">4</div><div class="b"><b>Subjective + objective</b> (15s) — how they feel and how they look. Skip anything normal and unchanged.</div></div>
+<div class="step"><div class="n">5</div><div class="b"><b>Assessment &amp; plan, by problem</b> (30–40s) — the most important section. Each problem: brief assessment, concrete plan.</div></div>
+<div class="step"><div class="n">6</div><div class="b"><b>Disposition</b> (5s) — "Anticipated discharge tomorrow if off O₂ and tolerating PO."</div></div>
+<p>Total: 80–95 seconds. Practice it out loud the first few times. You will sound stiff. That's fine.</p>
+
+<h4><span class="dot"></span>New admission vs. known patient</h4>
+<p>A <b>new admission</b> gets 3–5 minutes: full HPI in narrative, relevant history, exam, data, and a full A&amp;P with your reasoning visible. The attending wants to hear you think.</p>
+<p>A <b>known patient</b> gets the 90-second format. Restating the full history every morning is the most common intern error and the one that frustrates attendings most. Reference history only when it changes today's plan.</p>
+
+<h4><span class="dot"></span>The three questions every attending asks</h4>
+<ul>
+<li><b>What's the one-liner?</b> Can you summarize this patient in one sentence?</li>
+<li><b>What are we doing today?</b> Do you have a plan, and is it specific?</li>
+<li><b>When is discharge?</b> Do you have a disposition mindset, or just managing day-to-day?</li>
+</ul>
+<p>If you can't answer these three in one clear sentence each, your presentation isn't ready.</p>
+
+<h4><span class="dot"></span>Two ways, same patient</h4>
+<div class="callout good"><div class="ttl">Good — 90 seconds</div><p>"Mr. Patel, 72, HTN and prior MI, admitted day 2 for CAP. Clinically improving. Overnight uneventful, slept five hours, no PRNs. This morning feels better — Tmax 38.1 from 38.9, sats 96% on 2L weaned from 4L, WBC 11 from 14. Problem 1, CAP: day 3 of ceftriaxone/azithromycin, day-5 course planned — continue, wean to room air today, no repeat imaging unless he stalls. Problem 2, HTN: well controlled on home meds. Anticipated discharge tomorrow if off O₂, tolerating PO, PT clears — PT eval pending, I'll follow up at 7."</p></div>
+<div class="callout bad"><div class="ttl">Bad — 4 minutes</div><p>"So Mr. Patel is a 72-year-old gentleman with a past medical history of hypertension and hyperlipidemia, also a prior MI back in 2018 status post drug-eluting stent to the LAD — I think it was the proximal LAD — and he's also got BPH on tamsulosin and GERD on omeprazole. He was admitted, let me check, two days ago…"</p><p>Restates chart history, never reaches the assessment, buries the plan, respects nobody's time.</p></div>
+
+<h4><span class="dot"></span>Common mistakes</h4>
+<ul>
+<li><b>Starting with social history or the chronology of admission.</b> Start with the one-liner.</li>
+<li><b>Reading the chart instead of presenting your assessment.</b> If they wanted to read, they would.</li>
+<li><b>Listing labs without interpreting.</b> "WBC 11" is a number. "WBC 11 from 14, consistent with improvement" is an assessment.</li>
+<li><b>No plan ready.</b> "We'll see what the consultant says" is not a plan.</li>
+<li><b>Apologizing or hedging.</b> If genuinely uncertain, say so directly: "I'm not sure whether to anticoagulate — here's the trade-off."</li>
+</ul>
+`
+  },
+  {
+    id:"d03", day:"Day 03 · Foundations", read:"6 min read",
+    title:"Notes That Don't Take Three Hours",
+    blurb:"The largest single time-bucket of your day. Write the adequate note, not the perfect one — and be home for dinner.",
+    body:`
+<h4><span class="dot"></span>Why this matters</h4>
+<p>Interns spend roughly a third of their working hours writing notes — 1,500+ over a year. At 30 minutes instead of 10, that's 500 hours, twelve and a half work weeks, spent typing. The note is the largest single lever for your wellbeing.</p>
+<p>The fast intern isn't writing less carefully. They have a structure, set up their tools, and write the <b>adequate</b> note instead of the <b>perfect</b> note. 8–12 minutes for a complete daily progress note by year's end.</p>
+
+<h4><span class="dot"></span>What a note is actually for</h4>
+<ul>
+<li><b>Documenting your clinical thinking</b> for the next clinician. (Most important.)</li>
+<li><b>Protecting you medico-legally</b> by showing reasoning.</li>
+<li><b>Justifying billing.</b> Real, but not your problem yet.</li>
+</ul>
+<p>It is not a textbook chapter, not a place to show everything you know, not a transcript of rounds. Write for the night float at 2 AM who needs to know what to do if the patient gets worse.</p>
+
+<h4><span class="dot"></span>The structure</h4>
+<div class="step"><div class="n">S</div><div class="b"><b>Subjective.</b> One or two sentences. How they feel, any new complaints. Skip the full ROS unless something new came up.</div></div>
+<div class="step"><div class="n">O</div><div class="b"><b>Objective.</b> Vitals via smart phrase. Focused exam, not head-to-toe. Relevant labs/imaging <b>with interpretation</b>, not just values.</div></div>
+<div class="step"><div class="n">A</div><div class="b"><b>Assessment &amp; plan.</b> Where you spend your time. By problem (not system, unless ICU). Each problem: brief assessment + concrete plan.</div></div>
+<p>200 words is often enough. 300 is plenty. 500 is too long.</p>
+
+<h4><span class="dot"></span>The smart-phrase strategy</h4>
+<p>The single biggest time-saver. Spend 30 minutes on day one; save 200 hours over the year. Set up at minimum:</p>
+<ul>
+<li>A <b>vitals/labs auto-pull</b> dot phrase (last 24 h vitals, I/O, recent labs in one keystroke).</li>
+<li>A <b>standard exam</b> dot phrase — modify what's abnormal, the normal is already there.</li>
+<li><b>A&amp;P templates</b> for your 5–10 most common conditions (CHF, COPD, CAP, sepsis, UTI, AKI, lytes, AFib, DM, dispo).</li>
+<li>A <b>discharge summary</b> and an <b>H&amp;P</b> template.</li>
+</ul>
+<p>Yes, copy these from co-interns. The first intern of every year shouldn't reinvent them.</p>
+
+<h4><span class="dot"></span>Common time-wasters</h4>
+<ul>
+<li><b>Writing notes during rounds.</b> You'll mishear the plan and miss teaching. Listen during, write after.</li>
+<li><b>Writing patient-by-patient.</b> At pre-rounds open a skeleton (S+O auto-pulled) for everyone; fill A&amp;P after rounds. Finish 6 in the time you used to finish 3.</li>
+<li><b>Copy-forwarding yesterday's note.</b> Faster short-term, dangerous long-term, increasingly audited. Start fresh; smart phrases make it nearly as fast.</li>
+<li><b>Writing the perfect note.</b> The patient is served by a note that conveys reality and a clinician who shows up rested tomorrow.</li>
+</ul>
+
+<div class="callout good"><div class="ttl">Focused — 175 words</div><p><b>S:</b> Feels better. Slept five hours. No SOB at rest. Tolerating diet. Asking about discharge.</p><p><b>O:</b> Tmax 38.1 (↓38.9). HR 78–88, BP 132/78, SpO₂ 96% on 2L (weaned from 4L). I/O +400. Comfortable, decreased BS RLL with mild crackles, otherwise unremarkable. WBC 11.2 (↓14.1), Cr 1.1 stable.</p><p><b>A/P:</b> 1) CAP HD2 — improving; continue ceftriaxone/azithro day 3 of 5, weaning O₂, no repeat imaging unless stall. 2) HTN — controlled on home metoprolol. 3) Dispo — d/c tomorrow pending PT + off O₂; PT pending, f/u 0700.</p></div>
+
+<h4><span class="dot"></span>Calibration</h4>
+<p>The 8-minute note is not lazy. It documents the same clinical reality with less typing. Quality and brevity are correlated, not opposed. Be the intern who is home for dinner — your patients will not suffer for it, and you'll be a better doctor tomorrow because you slept tonight.</p>
+`
+  }
+];
+
+/* ---------------- WORKUP SCENARIOS ---------------- */
+/* Each: id, name, system, oneliner, acuity(1-3), summary, chart[],
+   question, model{oneliner, paras[]}, dx, ddx[], workup[], mgmt[], pearl */
+const CASES = [
+  {
+    id:"patel", name:"Mr. Patel · CAP", system:"Pulm / ID", acuity:1,
+    tags:["Pneumonia","Discharge planning"],
+    summary:"72M, HTN, prior MI. HD2 community-acquired pneumonia — the worked example from Day 01, now as a full workup.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (24h)",val:"Tmax <b>38.1</b> (↓ from 38.9). HR 78–88. BP 132/78. SpO₂ 96% on <b>2L</b>, weaned from 4L."},
+      {ic:"💧",lbl:"I/O · weight",val:"<b>+400</b> over 24 h (↓ from +1200). UOP adequate. Weight stable."},
+      {ic:"🌙",lbl:"Overnight",val:"Slept 5 h. No PRN antipyretics. Nurse: \"asked when he can go home.\""},
+      {ic:"💊",lbl:"MAR",val:"Ceftriaxone + azithromycin on time. Took home metoprolol. <span class='flag'>Refused 0200 vitals.</span>"},
+      {ic:"🧪",lbl:"Labs",val:"WBC <b>11.2</b> (↓14.1). Cr 1.1 stable. K 3.9. Trop neg ×2. Procalcitonin trending down."},
+      {ic:"🩻",lbl:"Imaging",val:"Admission CXR: RLL infiltrate. No new imaging."},
+      {ic:"📋",lbl:"Plan check",val:"ID signed off. <span class='flag'>PT eval still pending.</span>"}
+    ],
+    question:"It's day 2. Give the one-liner, then decide: is he ready for discharge tomorrow, and what's still in the way?",
+    model:{
+      oneliner:"Day 2 CAP, clinically improving — afebrile-trending, weaned to 2L, WBC normalizing — anticipated discharge tomorrow pending PT clearance and weaning to room air.",
+      paras:[
+        "He meets every marker of improvement: defervescing, weaning O₂, falling WBC and procalcitonin, eating, and asking to go home. This is a textbook responding CAP.",
+        "Two things are in the way of tomorrow's discharge — both <b>logistical, not medical</b>: he's still on 2L (needs room-air trial), and PT hasn't cleared him. Loop-closure means paging PT at 0700 rather than discovering at 4 PM that it never happened.",
+        "The question worth raising on rounds: does he need a follow-up CXR before discharge? For uncomplicated CAP that's improving clinically, routine repeat imaging is not required — reserve it for the patient who stalls or has risk factors for malignancy."
+      ]
+    },
+    dx:"Community-acquired pneumonia, responding to therapy",
+    ddx:[
+      ["If he stalls","Parapneumonic effusion / empyema — repeat CXR ± POCUS"],
+      ["If he stalls","Wrong bug — resistant organism, viral, or aspiration"],
+      ["If he stalls","Post-obstructive pneumonia — older smoker, consider CT"]
+    ],
+    confounders:[
+      ["Anchoring trap","\"Improving CAP\" can mask a brewing parapneumonic effusion/empyema — re-examine if WBC plateaus or fever recurs"],
+      ["Mimic","Cardiogenic pulmonary edema read as an infiltrate; PE with infarction; aspiration; organizing pneumonia; COVID/viral"],
+      ["Can't-miss","Post-obstructive pneumonia hiding a bronchogenic carcinoma in an older smoker — image if same lobe recurs"]
+    ],
+    workup:[
+      ["Room-air trial","Wean O₂ this morning; document SpO₂ on RA with ambulation"],
+      ["PT eval","Page at 0700 — gating step for safe discharge disposition"],
+      ["Antibiotic course","Day 3 of planned 5; transition to PO when afebrile 24–48 h & tolerating PO"],
+      ["No routine repeat CXR","Only if clinical stall or malignancy risk"]
+    ],
+    mgmt:[
+      "Continue ceftriaxone/azithromycin → step down to oral when criteria met",
+      "Discharge teaching with wife today (she's at bedside)",
+      "Return precautions: worsening dyspnea, fever recurrence, pleuritic pain"
+    ],
+    pearl:"Most discharge delays are logistics, not medicine. Close the loop on PT, room-air trials, and pending consults the morning before you want the patient gone — not the afternoon of."
+  },
+  {
+    id:"reyes", name:"Ms. Reyes · New AKI", system:"Renal", acuity:2,
+    tags:["AKI","Oliguria","Fluids"],
+    summary:"68F admitted with cellulitis on IV vancomycin. Overnight she became oliguric and her creatinine jumped. Work up the AKI.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (24h)",val:"HR 96 (↑ from 78). BP <b>102/58</b> (was 128/76). Afebrile. SpO₂ 97% RA."},
+      {ic:"💧",lbl:"I/O · weight",val:"<span class='flag'>UOP 0.3 mL/kg/h ×6 h.</span> Net <b>−1.4 L</b> over 24 h. Weight down 1.3 kg. Mucous membranes dry."},
+      {ic:"🌙",lbl:"Overnight",val:"Poor PO intake ×2 days. Nurse: \"not drinking, looks tired.\" Two doses of PRN ketorolac for pain."},
+      {ic:"💊",lbl:"MAR",val:"IV <b>vancomycin</b> (trough pending). <span class='flag'>Ketorolac ×2.</span> Home lisinopril given. Home furosemide given ×1."},
+      {ic:"🧪",lbl:"Labs",val:"Cr <b>2.1</b> (baseline 0.9, was 1.3 yesterday). BUN 38. K <b>5.4</b>. HCO₃ 20. Vanc trough pending."},
+      {ic:"🩻",lbl:"Imaging",val:"None. No recent contrast."},
+      {ic:"📋",lbl:"Plan check",val:"Renal not yet involved. Foley not in place (UOP by voids)."}
+    ],
+    question:"Cr 0.9 → 1.3 → 2.1 with oliguria. Build the one-liner and the AKI workup — what's your leading mechanism and what do you stop?",
+    model:{
+      oneliner:"68F with cellulitis, now KDIGO stage 2 AKI (Cr 0.9→2.1, oliguric) — most consistent with pre-renal physiology from poor intake and net-negative balance, compounded by nephrotoxins (NSAID, ACE-i, possible vancomycin ATN).",
+      paras:[
+        "This is the classic <b>multi-hit AKI</b>: a volume-down patient (dry mucosa, −1.4 L, weight down, soft BP, UOP 0.3) whose autoregulation is being held hostage by an <b>ACE inhibitor</b> (efferent dilation) and an <b>NSAID</b> (afferent constriction), with vancomycin layered on top as a possible ATN contributor.",
+        "Frame the differential the way you'd order the workup: <b>pre-renal</b> (volume depletion — leading), <b>intrinsic</b> (vancomycin ATN, ketorolac-related AIN/ischemia), <b>post-renal</b> (low prior probability — no obstructive history, but a bladder scan costs nothing).",
+        "The two highest-yield actions are <b>stop the nephrotoxins</b> (hold lisinopril, ketorolac, recheck vanc dosing/level) and <b>treat the volume</b> (a fluid challenge, since the story is pre-renal). The hyperkalemia of 5.4 needs an ECG and a plan now, not at rounds."
+      ]
+    },
+    dx:"KDIGO stage 2 AKI — pre-renal physiology + nephrotoxic insult",
+    ddx:[
+      ["Pre-renal","Volume depletion (leading) — poor intake, net-negative, soft BP, oliguria"],
+      ["Intrinsic","Vancomycin ATN; NSAID-mediated ischemia/AIN"],
+      ["Pre-renal (hemodynamic)","ACE-inhibitor lowering efferent tone on a dry kidney"],
+      ["Post-renal","Obstruction — low probability; exclude with bladder scan"]
+    ],
+    confounders:[
+      ["Anchoring trap","Don't stop at 'pre-renal' — vancomycin ATN and NSAID-mediated AIN can coexist with volume depletion"],
+      ["Mimic","ACE-i hemodynamic dip masquerading as intrinsic injury; cardiorenal or hepatorenal physiology"],
+      ["Can't-miss","Obstruction (always exclude), AIN (urine eos/WBC casts), rhabdomyolysis, thrombotic microangiopathy"]
+    ],
+    workup:[
+      ["ECG now","K 5.4 — peaked T waves? widened QRS? Drives urgency of treatment"],
+      ["Urinalysis + micro","Bland (pre-renal/ATN) vs muddy-brown casts (ATN) vs WBC/eosinophils (AIN)"],
+      ["Urine lytes (FENa/FEUrea)","FENa <1% pre-renal; but ACE-i/diuretic confound → FEUrea more reliable"],
+      ["Bladder scan / post-void residual","Cheap rule-out of obstruction"],
+      ["Renal US","If no improvement or obstruction suspected"],
+      ["Vancomycin level","Assess for supratherapeutic exposure; renally dose-adjust"]
+    ],
+    mgmt:[
+      "HOLD lisinopril, ketorolac; review all renally-cleared meds and dose-adjust",
+      "Fluid challenge (balanced crystalloid) given pre-renal picture; reassess UOP/exam",
+      "Treat K 5.4: ECG, recheck, dietary K restriction; calcium + insulin/glucose if ECG changes",
+      "Strict I/O, daily weights; consider Foley for accurate UOP; trend Cr q12–24h",
+      "Renal consult if no response to volume or if intrinsic cause confirmed"
+    ],
+    pearl:"\"New oliguria + rising Cr\" should reflexively trigger: check the MAR for nephrotoxins, check the I/O for volume, and check the K with an ECG. The mechanism (pre vs intrinsic vs post) tells you what to do; the urine tells you the mechanism."
+  },
+  {
+    id:"okafor", name:"Mr. Okafor · Hyponatremia", system:"Endo / Renal", acuity:2,
+    tags:["Hyponatremia","Volume status"],
+    summary:"74M admitted for COPD exacerbation. Routine AM labs show Na 124. He's on HCTZ at home. Work up the low sodium.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (24h)",val:"HR 84. BP 138/80. Afebrile. SpO₂ 93% on 2L. No orthostatics documented."},
+      {ic:"💧",lbl:"I/O · weight",val:"Even balance. Weight stable. Mucous membranes moist, no edema, JVP flat-to-normal."},
+      {ic:"🌙",lbl:"Overnight",val:"No seizures, no confusion. Alert, oriented. Mild fatigue. Encouraged PO fluids by nursing."},
+      {ic:"💊",lbl:"MAR",val:"<b>HCTZ</b> (home) given. Albuterol/ipratropium nebs. Prednisone taper. No hypertonic fluids."},
+      {ic:"🧪",lbl:"Labs",val:"Na <b>124</b> (124 on admit, 138 baseline 3 mo ago). K 3.6. Glucose 104. <span class='flag'>Serum osm 262 (low).</span> Urine Na 48, urine osm 410. TSH/cortisol pending."},
+      {ic:"🩻",lbl:"Imaging",val:"CXR: hyperinflation, no infiltrate. No CNS imaging."},
+      {ic:"📋",lbl:"Plan check",val:"No prior sodium trend ordered. Fluid restriction not yet started."}
+    ],
+    question:"Na 124, serum osm low, urine osm 410, urine Na 48, on a thiazide, euvolemic-appearing. Give the one-liner and the structured hyponatremia workup.",
+    model:{
+      oneliner:"74M with COPD, hypotonic (serum osm 262) euvolemic-appearing hyponatremia to 124 — differential is thiazide-induced vs SIADH (COPD + a lung process are classic triggers), with concentrated urine (osm 410) and urine Na 48 supporting a non–water-restricting kidney.",
+      paras:[
+        "Run the <b>algorithm</b>, don't guess. Step 1: confirm it's truly <b>hypotonic</b> (serum osm 262 — yes; rules out hyperglycemia/pseudohyponatremia). Step 2: assess <b>volume status</b> — he looks euvolemic (moist, no edema, flat JVP). Step 3: <b>urine osm</b> 410 = ADH is on (not primary polydipsia). Step 4: <b>urine Na</b> 48 = not the avid sodium retention of true hypovolemia.",
+        "That lands you between <b>thiazide-induced hyponatremia</b> and <b>SIADH</b> — and you can't fully separate them until the thiazide is out of the picture. COPD, the steroids' wearing physiology, nausea, and intrathoracic processes all drive SIADH, so both can be true at once.",
+        "Because he's <b>asymptomatic</b> (no seizures, no severe confusion), the move is <b>controlled, slow correction</b>: stop the HCTZ, fluid-restrict, and — critically — <b>cap the rise at 6–8 mEq/L per 24 h</b> to avoid osmotic demyelination. Recheck Na in 4–6 h; over-rapid autocorrection after stopping a thiazide is a real trap."
+      ]
+    },
+    dx:"Hypotonic euvolemic hyponatremia — thiazide vs SIADH",
+    ddx:[
+      ["Hypovolemic","Excluded clinically + urine Na 48 argues against avid retention"],
+      ["Euvolemic — SIADH","COPD/lung process, nausea, pain, steroids — fits"],
+      ["Euvolemic — drug","HCTZ — common, often coexists with SIADH physiology"],
+      ["Endocrine","Hypothyroidism / adrenal insufficiency — TSH & AM cortisol pending"],
+      ["Hypervolemic","No edema, no HF/cirrhosis signs — unlikely"]
+    ],
+    confounders:[
+      ["Confirm first","Pseudohyponatremia (hyperlipidemia/paraprotein) and translocational (hyperglycemia, mannitol) — verify true hypotonicity before working it up"],
+      ["Mimic","Adrenal insufficiency and hypothyroidism masquerade as SIADH — check AM cortisol/TSH before labeling"],
+      ["Can't-miss","Small-cell lung cancer or a CNS lesion as the SIADH driver in a smoker; overcorrection → osmotic demyelination"]
+    ],
+    workup:[
+      ["Serum osm","Confirms true hypotonic hyponatremia (262 = yes)"],
+      ["Urine osm","410 = ADH active → not primary polydipsia/beer potomania"],
+      ["Urine Na","48 → not hypovolemic avid retention; consistent with SIADH/thiazide"],
+      ["TSH, AM cortisol","Exclude hypothyroidism and adrenal insufficiency before calling it SIADH"],
+      ["Volume exam","The pivot of the whole algorithm — document JVP, edema, mucosa, orthostatics"],
+      ["Serial Na q4–6h","Track correction rate — the safety parameter that matters most"]
+    ],
+    mgmt:[
+      "STOP hydrochlorothiazide",
+      "Fluid restriction (~1–1.5 L/day) for SIADH physiology",
+      "CORRECT SLOWLY: target ≤6–8 mEq/L per 24 h; watch for overcorrection after thiazide withdrawal",
+      "Recheck Na in 4–6 h; if rising too fast, free water (D5W) ± DDAVP to re-lower",
+      "Reserve hypertonic 3% saline for severe symptoms (seizures, obtundation) — not this patient"
+    ],
+    pearl:"Hyponatremia is an algorithm, not a vibe: tonicity → volume status → urine osm → urine Na. And the number that can hurt the patient isn't 124 — it's the correction rate. Cap the rise."
+  },
+  {
+    id:"donnelly", name:"Mr. Donnelly · New AFib RVR", system:"Cardiology", acuity:2,
+    tags:["AFib","Tachycardia","Rate vs rhythm"],
+    summary:"81M post-op day 1 from hip ORIF. Telemetry alarms for an irregular tachycardia at 140s. Work up new atrial fibrillation with rapid ventricular response.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (now)",val:"HR <b>142 irregular</b>. BP 118/72 (was 134/80). RR 20. SpO₂ 94% RA, afebrile. No chest pain, mild palpitations."},
+      {ic:"💧",lbl:"I/O · weight",val:"Net <b>+2.6 L</b> since OR (intra-op + maintenance fluids). No overt pulmonary edema on exam."},
+      {ic:"🌙",lbl:"Overnight",val:"Post-op pain controlled. First episode of irregular rhythm at 0400. No prior AFib history."},
+      {ic:"💊",lbl:"MAR",val:"Enoxaparin prophylaxis. Acetaminophen, oxycodone PRN. Held home <b>metoprolol</b> ×2 doses (NPO pre-op). No K/Mg repletion overnight."},
+      {ic:"🧪",lbl:"Labs",val:"K <b>3.3</b>. Mg <b>1.5</b>. Hgb 9.8 (pre-op 12.4). Trop pending. TSH not on file. Cr 1.0."},
+      {ic:"🩻",lbl:"Imaging",val:"ECG: <b>AFib with RVR</b>, no acute ischemic changes. CXR: post-op, mild vascular congestion."},
+      {ic:"📋",lbl:"Plan check",val:"No telemetry note yet. Anticoag/dispo for AFib not addressed."}
+    ],
+    question:"New AFib with RVR post-op, BP holding. One-liner, plus: rate or rhythm control, and what reversible triggers are driving this?",
+    model:{
+      oneliner:"81M POD1 from hip ORIF with new AFib with RVR to 140s, hemodynamically stable — likely triggered by post-operative reversible insults: hypokalemia (3.3), hypomagnesemia (1.5), anemia (Hgb 9.8), volume shifts (+2.6 L), pain/catecholamines, and abruptly held home beta-blocker.",
+      paras:[
+        "The first fork is hemodynamics: he's <b>stable</b> (BP 118/72, mentating, no ischemic chest pain), so this is <b>rate control + trigger correction</b>, not emergent cardioversion. If he were unstable — hypotensive, ischemic, in pulmonary edema — the answer flips to synchronized DCCV.",
+        "Post-op new AFib is almost always <b>a symptom of something fixable</b>. Walk the list: <b>K 3.3 and Mg 1.5</b> (repletion is both treatment and prophylaxis), <b>anemia</b> (Hgb 9.8, raises demand), <b>volume overload</b> (+2.6 L), <b>pain/sympathetic surge</b>, <b>held metoprolol</b> (relative withdrawal), and rule out PE/MI/sepsis as drivers.",
+        "Anticoagulation is a deliberate decision, not a reflex: estimate <b>CHA₂DS₂-VASc</b> (he's elderly — likely ≥2) against a fresh <b>post-op bleeding risk</b> on POD1. Often the right move is rate-control now, replete electrolytes, and have the explicit anticoagulation conversation with the surgical team and cardiology once the bleeding window is safer."
+      ]
+    },
+    dx:"New post-operative AFib with RVR, hemodynamically stable",
+    ddx:[
+      ["Reversible trigger","Hypokalemia / hypomagnesemia — replete and recheck"],
+      ["Reversible trigger","Anemia (Hgb 9.8), volume overload, pain/catecholamines, held BB"],
+      ["Must exclude","PE (post-op, immobile), MI/ischemia (trop), sepsis, hyperthyroidism (TSH)"],
+      ["Structural","Underlying atrial disease unmasked by stress — address after acute phase"]
+    ],
+    confounders:[
+      ["Can't-miss","PE can present as new AFib — the most dangerous confounder in a post-op, immobile patient"],
+      ["Mimic","Atrial flutter, MAT, or SVT on the monitor; pre-excitation/WPW (avoid AV-nodal blockers if pre-excited)"],
+      ["Driver","Thyrotoxicosis, sepsis, alcohol withdrawal, and pain all generate AFib — treat the cause, not just the rate"]
+    ],
+    workup:[
+      ["12-lead ECG","Confirm AFib, exclude ischemia/pre-excitation; compare to baseline"],
+      ["Replete & recheck K/Mg","K 3.3 and Mg 1.5 are pro-arrhythmic and directly fixable"],
+      ["Troponin","Demand ischemia vs ACS as trigger"],
+      ["TSH","Exclude thyrotoxic AFib — not on file"],
+      ["Reassess volume","+2.6 L and congestion on CXR — diurese if overloaded"],
+      ["CHA₂DS₂-VASc + HAS-BLED","Frame the anticoagulation decision against POD1 bleed risk"],
+      ["Consider PE workup","If hypoxia/tachycardia out of proportion — post-op risk is real"]
+    ],
+    mgmt:[
+      "Stable → rate control: IV/PO beta-blocker (resume metoprolol) or diltiazem; avoid diltiazem if EF unknown/low",
+      "Replete K to >4.0 and Mg to >2.0 — often rate-limiting and partly therapeutic",
+      "Correct the trigger: treat anemia/volume/pain; rule out PE/MI/sepsis",
+      "If hemodynamically UNSTABLE: synchronized cardioversion",
+      "Anticoagulation: individualized with surgery/cardiology given POD1 bleeding risk",
+      "Continuous telemetry; cardiology consult for persistent or recurrent AFib"
+    ],
+    pearl:"New post-op AFib is a sign, not a disease. Replete the K and Mg, hunt the trigger (anemia, volume, pain, PE), and let hemodynamic stability — not the heart rate number — decide rate-control vs cardioversion."
+  },
+  {
+    id:"castellanos", name:"Ms. Castellanos · Sepsis source", system:"ID / Critical care", acuity:3,
+    tags:["Sepsis","Hypotension","Lactate"],
+    summary:"59F, type 2 diabetes, admitted 2 days ago for pyelonephritis. Overnight she spiked, dropped her pressure, and her lactate rose. Work up the source and the shock.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (24h)",val:"Tmax <b>39.4</b>. HR <b>118</b>. BP <b>86/48</b> (MAP 61, was 122/74). RR 24. SpO₂ 95% on 2L. Mottled knees."},
+      {ic:"💧",lbl:"I/O · weight",val:"UOP <span class='flag'>0.4 mL/kg/h</span> trending down. Received 1 L NS in ED 2 days ago; minimal since."},
+      {ic:"🌙",lbl:"Overnight",val:"Rigors at 0200. Increasingly confused per nursing (\"not herself\"). Flank pain persists."},
+      {ic:"💊",lbl:"MAR",val:"<b>Ceftriaxone</b> (empiric, day 2). Insulin sliding scale. <span class='flag'>No source control imaging yet.</span> Last antibiotic dose 6 h ago."},
+      {ic:"🧪",lbl:"Labs",val:"WBC <b>18.4</b> (bandemia). Lactate <b>3.8</b> (was 1.9). Cr 1.7 (↑1.0). Glucose 288. Blood cultures from admit: <span class='flag'>GNR, speciation pending.</span> UA: pyuria, nitrite+."},
+      {ic:"🩻",lbl:"Imaging",val:"Admission CT not done — diagnosed clinically. No renal imaging."},
+      {ic:"📋",lbl:"Plan check",val:"Source control not assessed. Antibiotics not broadened. No lactate clearance trend."}
+    ],
+    question:"Pyelo now with hypotension, lactate 3.8, AKI, and worsening despite ceftriaxone. One-liner, then work up the shock and the source — what's the most dangerous thing you're missing?",
+    model:{
+      oneliner:"59F with diabetes and pyelonephritis now in septic shock — fever, hypotension (MAP 61) despite minimal fluids, rising lactate 3.8, oliguria, AKI, and encephalopathy — failing first-line ceftriaxone, raising concern for an undrained source (obstructing stone/abscess/emphysematous pyelo) and/or resistant organism.",
+      paras:[
+        "This is <b>septic shock</b> by definition once you account for it: she needs the <b>Sepsis-6 / hour-1 bundle</b> now — lactate (done, 3.8), blood cultures before broadening (pull repeats), broad-spectrum antibiotics, and a <b>30 mL/kg crystalloid</b> resuscitation, with vasopressors (norepinephrine) if MAP stays <65 after fluids.",
+        "The most dangerous thing you're missing is <b>source control</b>. A pyelonephritis that deteriorates on appropriate antibiotics is an obstructed or undrained source until proven otherwise — an <b>obstructing ureteral stone</b>, a <b>renal/perinephric abscess</b>, or <b>emphysematous pyelonephritis</b> in a diabetic. Antibiotics don't fix pus behind an obstruction; she needs imaging (CT) and possibly urology/IR for decompression.",
+        "In parallel, assume the bug is winning: she's <b>failing ceftriaxone</b>, so <b>broaden empiric coverage</b> (e.g., antipseudomonal ± consider resistant GNR) pending speciation/sensitivities of the known GNR, and re-culture. Diabetics earn a lower threshold for the aggressive read."
+      ]
+    },
+    dx:"Septic shock from complicated pyelonephritis — query obstruction/abscess",
+    ddx:[
+      ["Source — undrained","Obstructing stone, perinephric/renal abscess, emphysematous pyelo (diabetic)"],
+      ["Organism","Resistant GNR failing ceftriaxone — broaden + await sensitivities"],
+      ["Shock type","Distributive (septic) leading; exclude concurrent hypovolemia/cardiogenic"],
+      ["Other source","Reassess for second site (line, lung, abdomen) if no renal source found"]
+    ],
+    confounders:[
+      ["Anchoring trap","Don't fixate on 'pyelo' — could be a second source (line, C. diff, pneumonia, cholangitis, abscess)"],
+      ["Mimic","Shock that isn't septic: adrenal crisis, PE, DKA, GI bleed, anaphylaxis, thyroid storm"],
+      ["Can't-miss","Emphysematous pyelonephritis / obstructed infected system needing emergent decompression"]
+    ],
+    workup:[
+      ["Repeat blood cultures","Before broadening — and the original GNR needs speciation/sensitivities"],
+      ["CT abdomen/pelvis","Source control: obstruction, abscess, gas (emphysematous pyelo)"],
+      ["Serial lactate","Lactate clearance = resuscitation adequacy marker"],
+      ["MAP / perfusion","Target MAP ≥65; reassess after 30 mL/kg fluids"],
+      ["Recheck CMP/VBG","AKI, acidosis; glucose 288 — manage hyperglycemia"],
+      ["Urology / IR","If obstruction or abscess — decompress/drain urgently"]
+    ],
+    mgmt:[
+      "Hour-1 bundle: cultures → broaden antibiotics → 30 mL/kg balanced crystalloid → trend lactate",
+      "Norepinephrine if MAP <65 after fluids; escalate level of care (ICU)",
+      "URGENT source control: imaging now, urology/IR for drainage of obstruction/abscess",
+      "Broaden empiric coverage given failure of ceftriaxone; de-escalate on sensitivities",
+      "Manage hyperglycemia; reassess for DKA/HHS given diabetes + stress"
+    ],
+    pearl:"A localized infection that deteriorates on appropriate antibiotics is an undrained source until proven otherwise. In sepsis, antibiotics + fluids buy time — source control is the cure. Image early, drain early."
+  },
+  {
+    id:"ahmed", name:"Mr. Ahmed · GI bleed", system:"GI / Heme", acuity:3,
+    tags:["Melena","Anemia","Resuscitation"],
+    summary:"63M on apixaban for AFib, admitted for COPD. Overnight: melena and a Hgb drop. Work up the GI bleed and stratify risk.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (24h)",val:"HR <b>108</b> (was 76). BP <b>104/62</b> (was 132/78). <span class='flag'>Orthostatic</span> per nursing. Afebrile. SpO₂ 95% RA."},
+      {ic:"💧",lbl:"I/O · weight",val:"Two large <b>melenotic</b> stools overnight. UOP borderline. No hematemesis reported."},
+      {ic:"🌙",lbl:"Overnight",val:"Felt lightheaded standing. Nurse: \"black tarry stool ×2, looks pale.\" Denies abdominal pain."},
+      {ic:"💊",lbl:"MAR",val:"<b>Apixaban</b> given last evening. <span class='flag'>No PPI on MAR.</span> Home NSAID listed on med-rec. Tiotropium, albuterol."},
+      {ic:"🧪",lbl:"Labs",val:"Hgb <b>7.9</b> (was 11.6). Plt 210. INR 1.2. BUN <b>32</b>, Cr 1.0 (<span class='flag'>elevated BUN:Cr</span>). Type & screen not yet sent."},
+      {ic:"🩻",lbl:"Imaging",val:"None. No NG lavage performed."},
+      {ic:"📋",lbl:"Plan check",val:"No GI consult. No PPI started. No transfusion threshold documented. 2 IVs?"}
+    ],
+    question:"Melena, Hgb 11.6→7.9, tachycardic and orthostatic, on apixaban. One-liner, then resuscitate and work up — upper or lower source, and what do you do about the anticoagulant?",
+    model:{
+      oneliner:"63M on apixaban with acute GI bleed — melena, Hgb 11.6→7.9, tachycardic and orthostatic with an elevated BUN:Cr ratio — picture most consistent with an upper GI source (NSAID + anticoagulant), now with hemodynamic compromise requiring resuscitation.",
+      paras:[
+        "<b>Resuscitate before you investigate.</b> He has signs of significant volume loss (tachycardia, orthostasis, soft BP): two large-bore IVs, <b>type and crossmatch</b>, start fluids, and transfuse to a threshold — for most GI bleeds the evidence supports a <b>restrictive Hgb target of ~7 g/dL</b> (higher if active large-volume bleeding or cardiac ischemia). Send coags and a repeat Hgb knowing it lags acutely.",
+        "The data point to an <b>upper</b> source: melena (not hematochezia), an <b>elevated BUN:Cr</b> from digested blood, NSAID use, and anticoagulation. Start an <b>IV PPI</b> and get <b>GI on board for EGD</b>; if there were brisk hematochezia with instability you'd also think upper with rapid transit, and a colonoscopy/CT angio pathway for lower sources.",
+        "The anticoagulant is the crux: <b>hold apixaban</b> now. Reversal (andexanet/4-factor PCC) is reserved for life-threatening bleeding — weigh it against his AFib thromboembolic risk, ideally with GI and possibly heme/cards input. Risk-stratify with a <b>Glasgow-Blatchford score</b> to justify the urgency and admission level."
+      ]
+    },
+    dx:"Acute (likely upper) GI bleed on anticoagulation with hemodynamic instability",
+    ddx:[
+      ["Upper (leading)","Peptic ulcer (NSAID + anticoag), gastritis, varices, Mallory-Weiss"],
+      ["Lower","Diverticular, angiodysplasia, malignancy — less likely given melena + ↑BUN:Cr"],
+      ["Mimic","Bismuth/iron causing dark stool — but Hgb drop is real"]
+    ],
+    confounders:[
+      ["Mimic","Bismuth/iron/spinach darken stool; a brisk UPPER bleed can present as hematochezia with instability"],
+      ["Can't-miss","Variceal hemorrhage; aortoenteric fistula (prior AAA/aortic graft); GI malignancy"],
+      ["Confounder","Acute Hgb lags — a 'reassuring' first value can undercall active bleeding; trend it with the vitals"]
+    ],
+    workup:[
+      ["Type & crossmatch","Send now — gating step for transfusion"],
+      ["Serial Hgb","Lags acutely; trend q4–6h alongside vitals"],
+      ["Coags / anti-Xa","INR 1.2; assess anticoagulant effect"],
+      ["BUN:Cr ratio","Elevated → supports upper source (digested blood)"],
+      ["Glasgow-Blatchford score","Risk stratification → urgency and disposition"],
+      ["EGD (GI consult)","Diagnostic + therapeutic for upper source"],
+      ["Rectal exam / stool","Confirm melena vs hematochezia → localizes source"]
+    ],
+    mgmt:[
+      "Two large-bore IVs, crystalloid resuscitation, transfuse to ~Hgb 7 (higher if ischemia/active brisk bleed)",
+      "HOLD apixaban; reserve reversal (PCC/andexanet) for life-threatening bleeding — weigh thrombotic risk",
+      "Start IV PPI infusion; NPO for likely EGD",
+      "Urgent GI consult for endoscopy; ICU/step-up if unstable",
+      "Hold/stop home NSAID; correct coagulopathy as indicated"
+    ],
+    pearl:"In GI bleeding the order is resuscitate → risk-stratify → localize → scope. Melena + a high BUN:Cr says upper. And every anticoagulated bleeder is a deliberate hold-vs-reverse decision, not an automatic one."
+  },
+  {
+    id:"petrova", name:"Mrs. Petrova · Acute hypoxia", system:"Pulm / Cards", acuity:3,
+    tags:["Hypoxia","Dyspnea","PE vs flash"],
+    summary:"71F, recent knee replacement, admitted for cellulitis. Overnight: sudden dyspnea and a desaturation. Work up acute hypoxemia and decide PE vs the alternatives.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (now)",val:"HR <b>116</b>. BP 128/80. RR <b>28</b>. SpO₂ <b>86% RA</b> → 93% on 4L. Afebrile. Right calf swelling noted."},
+      {ic:"💧",lbl:"I/O · weight",val:"Net even. No new weight gain. JVP not elevated. Lungs: clear, no crackles on quick listen."},
+      {ic:"🌙",lbl:"Overnight",val:"Sudden onset SOB at 0300 with pleuritic chest discomfort. No cough, no fever. Anxious-appearing."},
+      {ic:"💊",lbl:"MAR",val:"<span class='flag'>No VTE prophylaxis charted</span> (held for cellulitis dosing question). IV antibiotics. PRN lorazepam ×1 for anxiety."},
+      {ic:"🧪",lbl:"Labs",val:"Trop slightly elevated. BNP normal. Lactate 1.6. <span class='flag'>D-dimer not sent.</span> ABG pending. Hgb 11.0."},
+      {ic:"🩻",lbl:"Imaging",val:"ECG: <b>sinus tach</b>, new <span class='flag'>S1Q3T3</span>, no STEMI. CXR: clear lungs, no edema, no infiltrate."},
+      {ic:"📋",lbl:"Plan check",val:"No PE workup ordered. No prophylaxis given since admission. No leg Dopplers."}
+    ],
+    question:"Sudden hypoxia + pleuritic pain + tachycardia, clear lungs and clear CXR, recent surgery, no prophylaxis. One-liner, then work up the hypoxia — what's your pretest probability and next test?",
+    model:{
+      oneliner:"71F with recent knee arthroplasty and no VTE prophylaxis, now with abrupt pleuritic dyspnea, hypoxia to 86%, sinus tachycardia with new S1Q3T3 and clear lungs/CXR — high clinical pretest probability for acute pulmonary embolism.",
+      paras:[
+        "The pattern is <b>hypoxia with a clear chest</b> — that mismatch (no crackles, no infiltrate, no edema, normal BNP) pushes you away from pneumonia and flash pulmonary edema and toward a <b>vascular</b> cause. Add the provoking factors: <b>recent orthopedic surgery, immobility, no prophylaxis, unilateral calf swelling</b>, and sudden pleuritic onset. This is a high-probability PE.",
+        "With high pretest probability, a <b>D-dimer doesn't help</b> — you don't risk-stratify your way out of a high-probability story. Go to <b>CT pulmonary angiography</b> (or V/Q if contrast contraindicated by the AKI risk). If she were too unstable to travel, bedside <b>echo</b> for RV strain plus <b>leg Dopplers</b> could support empiric treatment.",
+        "Don't wait for the scan to act on the <b>highest-risk</b> read: if pretest probability is high and there's no major bleeding contraindication, <b>start empiric anticoagulation now</b> and image promptly. Meanwhile assess severity — the mildly elevated troponin and tachycardia raise the question of <b>RV strain / submassive PE</b>, which changes monitoring and the conversation about escalation."
+      ]
+    },
+    dx:"Suspected acute pulmonary embolism — high pretest probability",
+    ddx:[
+      ["Vascular (leading)","PE — provoked (post-op, immobile, no prophylaxis, calf swelling)"],
+      ["Cardiac","ACS/RV strain — troponin up; but clear lungs + S1Q3T3 favor PE"],
+      ["Pulmonary","Pneumonia/atelectasis — CXR clear; less likely"],
+      ["Cardiac — flash edema","BNP normal, lungs clear, no edema — argues against"],
+      ["Other","Anxiety/hyperventilation — a diagnosis of exclusion; she's truly hypoxic"]
+    ],
+    confounders:[
+      ["Anchoring trap","Don't accept 'anxiety/panic' — she is genuinely hypoxic; anxiety is a diagnosis of exclusion"],
+      ["Can't-miss","Aortic dissection, tamponade, tension pneumothorax, ACS — the other causes of sudden dyspnea/chest pain"],
+      ["Confounder","Submassive vs massive PE (RV strain, troponin) changes management; a low D-dimer falsely reassures in high pretest"]
+    ],
+    workup:[
+      ["Wells / clinical pretest","High probability → skip D-dimer, go to imaging"],
+      ["CT pulmonary angiography","Definitive test of choice for PE"],
+      ["V/Q scan","Alternative if contrast contraindicated (renal/allergy)"],
+      ["Bedside echo","RV strain → risk-stratifies submassive PE; useful if too unstable to scan"],
+      ["Lower-extremity Dopplers","Confirm DVT — supports diagnosis and empiric treatment"],
+      ["Troponin + repeat","Submassive PE marker; trend for RV strain"],
+      ["ABG","Quantify gas exchange (A-a gradient)"]
+    ],
+    mgmt:[
+      "Supplemental O₂ to target SpO₂ ≥94%; continuous monitoring",
+      "High pretest probability + no contraindication → start empiric anticoagulation, then confirm with CTPA",
+      "If massive (hypotension) → activate PE response / consider thrombolysis; escalate care",
+      "Assess RV strain (echo, troponin) to identify submassive PE",
+      "Review why prophylaxis was missing — fix the systems gap; re-evaluate VTE prophylaxis policy"
+    ],
+    pearl:"Hypoxia with a clean chest exam and clean CXR is vascular until proven otherwise. When pretest probability is high, the D-dimer is noise — image, and treat the high-probability patient before the scan if it's safe to."
+  },
+  {
+    id:"brenner", name:"Mr. Brenner · Chest pain", system:"Cardiology", acuity:2,
+    tags:["Chest pain","ACS rule-out","Lethal mimics"],
+    summary:"61M, HTN and smoker, in obs for chest pain. One troponin is negative. Before anyone calls it noncardiac — work up the differential and clear the lethal mimics.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (now)",val:"HR 92. BP <b>158/94 right arm</b> — <span class='flag'>left arm not yet checked.</span> RR 18. SpO₂ 97% RA. Pain 4/10, intermittently \"tearing,\" radiates to the back."},
+      {ic:"💧",lbl:"I/O · weight",val:"Even. No volume issue."},
+      {ic:"🌙",lbl:"Overnight",val:"Pain began at rest ~2 h ago, diaphoretic at onset, partial relief with nitro. Now intermittent."},
+      {ic:"💊",lbl:"MAR",val:"ASA given. Nitroglycerin PRN ×2. Home amlodipine. <span class='flag'>No anticoagulation started.</span>"},
+      {ic:"🧪",lbl:"Labs",val:"Troponin neg ×1 (3 h pending). <span class='flag'>D-dimer not sent.</span> Cr 1.1. Lipids pending."},
+      {ic:"🩻",lbl:"Imaging",val:"ECG: nonspecific ST/T changes, no STEMI, no prior for comparison. CXR: <span class='flag'>\"?widened mediastinum, repeat PA suggested.\"</span>"},
+      {ic:"📋",lbl:"Plan check",val:"BP both arms not documented. Serial troponin/ECG not ordered. No risk score."}
+    ],
+    question:"Rest chest pain, one negative troponin, a 'tearing' quality, a widened-mediastinum read, and a BP in only one arm. One-liner, then work it up — what must you exclude before calling this noncardiac?",
+    model:{
+      oneliner:"61M with cardiac risk factors and rest chest pain — partly nitrate-responsive with a tearing quality, a single negative troponin, nonspecific ECG, and a query widened mediastinum — undifferentiated chest pain in which the lethal causes (ACS, aortic dissection, PE) are not yet excluded.",
+      paras:[
+        "One negative troponin does not rule out ACS. Use a validated pathway — a <b>HEART score</b> with <b>serial high-sensitivity troponin</b> (0/1–3 h) and serial ECGs. \"Noncardiac\" is a conclusion you earn after the workup, not the assumption you open with.",
+        "The <b>tearing, radiates-to-back</b> descriptor plus a widened-mediastinum read and a single-arm BP is a classic setup for <b>aortic dissection</b>. Check BP in <b>both arms</b>, feel for a pulse/pressure differential, and if suspicion holds get <b>CT angiography of the aorta</b>. This matters enormously: anticoagulating or thrombolysing a presumed ACS that is actually a dissection can be catastrophic.",
+        "Round out the can't-miss list before downgrading: <b>PE</b> (pleuritic, hypoxia, VTE risk), <b>tension pneumothorax</b> (absent breath sounds, distended neck veins), and <b>esophageal rupture / Boerhaave</b> (vomiting then chest pain, subcutaneous emphysema). The lower-lethality mimics — GERD, costochondritis, pericarditis, zoster, panic — are reasonable only once the lethal five are addressed."
+      ]
+    },
+    dx:"Undifferentiated chest pain — lethal causes not yet excluded",
+    ddx:[
+      ["Cardiac","ACS — serial troponin/ECG pending; risk-stratify (HEART)"],
+      ["Vascular","Aortic dissection — tearing pain, widened mediastinum, single-arm BP"],
+      ["Vascular","Pulmonary embolism — assess risk/hypoxia"],
+      ["Lower-lethality","Pericarditis, GERD/esophageal spasm, musculoskeletal, zoster, panic"]
+    ],
+    confounders:[
+      ["Can't-miss","The lethal five: ACS, aortic dissection, PE, tension pneumothorax, esophageal rupture (Boerhaave)"],
+      ["Anchoring trap","Calling rest chest pain 'GERD/musculoskeletal' on one negative troponin — serial markers + ECGs first"],
+      ["Catastrophic error","Anticoagulating/lysing a 'STEMI' that is actually an aortic dissection — check both-arm BP and the mediastinum"]
+    ],
+    workup:[
+      ["Serial hs-troponin + ECG","0/1–3 h with comparison to prior — one value never rules out ACS"],
+      ["BP both arms","A differential >20 mmHg raises dissection"],
+      ["CTA chest","Aorta (dissection) ± PE protocol per suspicion; repeat PA CXR for the mediastinum"],
+      ["HEART score","Risk-stratify disposition"],
+      ["Bedside echo","Pericardial effusion/tamponade, RV strain, wall-motion abnormality"],
+      ["Reassess pain character","Pleuritic vs positional vs exertional vs tearing — each points elsewhere"]
+    ],
+    mgmt:[
+      "ASA for suspected ACS — but HOLD anticoagulation until dissection is excluded if suspicion is real",
+      "Serial troponin/ECG on a defined pathway; continuous telemetry",
+      "If dissection suspected: CTA aorta, control HR then BP (esmolol → vasodilator), urgent surgery consult — do NOT anticoagulate",
+      "Treat the cause once identified; don't discharge until the lethal differential is addressed"
+    ],
+    pearl:"'Noncardiac chest pain' is a diagnosis of exclusion. Clear the lethal five before you anchor — and never anticoagulate a presumed ACS while an aortic dissection is still on the table."
+  },
+  {
+    id:"whitfield", name:"Mrs. Whitfield · Altered mental status", system:"Neuro / Geriatrics", acuity:2,
+    tags:["Delirium","UTI anchor","Can't-miss"],
+    summary:"84F admitted for hip pain after a fall, now acutely confused on day 2. The urinalysis is positive. Before anyone treats a 'UTI' — work up the altered mental status properly.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (24h)",val:"HR 88. BP 142/80. Tmax 37.4 (<b>no fever</b>). SpO₂ 92% RA. RR 18. <span class='flag'>Fingerstick 64.</span>"},
+      {ic:"💧",lbl:"I/O · weight",val:"Mildly negative. Poor PO intake."},
+      {ic:"🌙",lbl:"Overnight",val:"Agitated, pulling at lines, inattentive, fluctuating. Fall 2 days ago — <span class='flag'>head strike uncertain.</span> On scheduled diphenhydramine for sleep."},
+      {ic:"💊",lbl:"MAR",val:"<span class='flag'>Oxycodone PRN ×4. Diphenhydramine QHS. Lorazepam ×1. Home oxybutynin.</span>"},
+      {ic:"🧪",lbl:"Labs",val:"UA: few WBC, +nitrite, <b>no urinary symptoms documented</b>. Na 133. <span class='flag'>Ca 11.4 (corrected, high)</span>. Glucose 64. TSH pending."},
+      {ic:"🩻",lbl:"Imaging",val:"<span class='flag'>No CT head since the fall.</span> CXR clear."},
+      {ic:"📋",lbl:"Plan check",val:"'UTI' being treated. No AMS workup. Anticholinergic burden not reviewed."}
+    ],
+    question:"She's confused with a positive UA after a fall. One-liner, then work up the AMS — why is 'treat the UTI' the wrong reflex, and what are you missing?",
+    model:{
+      oneliner:"84F with delirium after a fall — fluctuating and inattentive, with hypoglycemia (64), hypercalcemia (11.4), hypoxia (92%), a heavy anticholinergic/opioid medication burden, and an unwitnessed head strike — in whom a positive UA without urinary symptoms most likely represents asymptomatic bacteriuria, not the cause.",
+      paras:[
+        "Delirium in the elderly is almost always <b>multifactorial</b>, and a positive urinalysis <b>without urinary symptoms</b> is usually asymptomatic bacteriuria — treating it anchors you onto the wrong diagnosis and lets the real driver run. Work the reversible causes with discipline: the immediate ones are <b>hypoglycemia</b> (64 — treat now), <b>hypoxia</b> (92%), <b>hypercalcemia</b> (11.4), and <b>medications</b>.",
+        "Her med list is a delirium machine: <b>oxycodone, diphenhydramine, lorazepam, and home oxybutynin</b> — a stacked anticholinergic and sedative burden. Deprescribing is treatment. Add the metabolic hits (Ca 11.4, Na 133, glucose 64) and you can explain her without ever invoking a UTI.",
+        "Then the can't-miss structural/neuro causes: an unwitnessed fall with possible head strike mandates a <b>CT head to exclude subdural hematoma</b>, and a fluctuating, inattentive patient warrants thinking about <b>non-convulsive status epilepticus</b>, <b>Wernicke encephalopathy</b> (thiamine before glucose in the at-risk), <b>stroke</b>, and a genuine occult infection elsewhere."
+      ]
+    },
+    dx:"Multifactorial delirium — metabolic + medication + query structural",
+    ddx:[
+      ["Metabolic","Hypoglycemia, hypercalcemia, hyponatremia, hypoxia/hypercapnia, uremia"],
+      ["Medications","Opioids, anticholinergics (diphenhydramine, oxybutynin), benzodiazepines"],
+      ["Structural / neuro","Subdural after fall, stroke, non-convulsive status, Wernicke"],
+      ["Infection","Occult source — but a positive UA ≠ symptomatic UTI"]
+    ],
+    confounders:[
+      ["Anchoring trap","Asymptomatic bacteriuria treated as 'UTI delirium' — a positive UA without symptoms is a distractor in the elderly"],
+      ["Can't-miss","Subdural hematoma (post-fall), non-convulsive status epilepticus, Wernicke, stroke, hypoglycemia"],
+      ["Iatrogenic","The delirium is often in the MAR — anticholinergic/opioid/benzo burden is both cause and fix"]
+    ],
+    workup:[
+      ["Fingerstick glucose","64 — treat immediately and recheck"],
+      ["CMP + Ca + Mg/Phos","Hypercalcemia 11.4, Na 133, uremia"],
+      ["Medication review","Stop diphenhydramine and oxybutynin; minimize opioids/benzos"],
+      ["CT head","Unwitnessed fall + head strike → exclude subdural/bleed"],
+      ["Consider EEG","Fluctuating unresponsiveness → non-convulsive status epilepticus"],
+      ["Thiamine","Empiric in malnourished/at-risk before glucose loads"],
+      ["Reassess the 'UTI'","Treat bacteriuria only if genuinely symptomatic"]
+    ],
+    mgmt:[
+      "Treat hypoglycemia now; correct hypercalcemia (IV hydration ± workup of cause)",
+      "Deprescribe deliriogenic meds (anticholinergics, benzodiazepines, excess opioids)",
+      "CT head given the fall; non-pharmacologic delirium bundle (reorient, sleep-wake, mobilize, sitter)",
+      "Avoid restraints/benzodiazepines except for severe agitation/safety; thiamine if at risk",
+      "Antibiotics for bacteriuria ONLY if truly symptomatic"
+    ],
+    pearl:"A positive urinalysis in a confused elder is a trap, not a diagnosis. Delirium is multifactorial — check the sugar, the calcium, the oxygen, and the MAR before you blame the urine, and never miss the post-fall subdural."
+  },
+  {
+    id:"sandoval", name:"Mr. Sandoval · Acidosis / DKA", system:"Endocrine", acuity:3,
+    tags:["DKA","Euglycemic DKA","Precipitant"],
+    summary:"47M with type 2 diabetes on an SGLT2 inhibitor, admitted for nausea and malaise. Glucose is only mildly high but he's acidotic and ketotic. Work up the anion-gap acidosis — and don't miss the trap.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (now)",val:"HR 110. BP 118/74. RR <b>26 (Kussmaul)</b>. Tmax 37.8. SpO₂ 99% RA. Mild abdominal pain."},
+      {ic:"💧",lbl:"I/O · weight",val:"Poor intake ×2 days, net negative, dry mucous membranes."},
+      {ic:"🌙",lbl:"Overnight",val:"Nausea, vomiting, fatigue. Recently started empagliflozin. \"Skipping insulin since I'm not eating.\""},
+      {ic:"💊",lbl:"MAR",val:"<span class='flag'>Held home insulin</span> (poor intake). <b>Empagliflozin</b> on med-rec. Ondansetron PRN."},
+      {ic:"🧪",lbl:"Labs",val:"Glucose <b>212</b> (only mildly high). HCO₃ 12. <span class='flag'>Anion gap 24</span>. pH 7.26. β-hydroxybutyrate elevated. K 5.2 (total-body depleted). Lactate 2.0. Cr 1.4."},
+      {ic:"🩻",lbl:"Imaging",val:"ECG sinus tach. CXR clear."},
+      {ic:"📋",lbl:"Plan check",val:"Recorded as <span class='flag'>\"gastroenteritis.\"</span> No insulin drip. Precipitant not sought."}
+    ],
+    question:"Anion-gap acidosis with ketosis but glucose only 212 on an SGLT2 inhibitor. One-liner, then work it up — why is this DKA, and what precipitant are you obligated to find?",
+    model:{
+      oneliner:"47M with diabetes on empagliflozin presenting with a high-anion-gap metabolic acidosis (gap 24, HCO₃ 12, pH 7.26), ketosis, and Kussmaul breathing despite a near-normal glucose of 212 — euglycemic DKA, with insulin omission and reduced intake as triggers and a precipitant still to be found.",
+      paras:[
+        "The dangerous trap is the glucose. <b>SGLT2 inhibitors cause euglycemic DKA</b> — a true ketoacidosis with glucose often <250 — so a 'gastroenteritis' label that waits for a glucose of 500 misses it entirely. The diagnosis rests on the <b>acidosis + anion gap + ketones</b>, not the sugar. Confirm with β-hydroxybutyrate and a VBG, and treat as DKA: fluids, an <b>insulin infusion with dextrose</b> (to give insulin while glucose is normal), and potassium repletion.",
+        "Walk the wide anion-gap differential to avoid tunnel vision (<b>MUDPILES</b>): the ketoacidoses — diabetic, alcoholic, starvation — plus lactic acidosis (his lactate is 2.0), uremia, and toxic alcohols (methanol, ethylene glycol). Check an <b>osmolar gap</b> and a salicylate/toxin history if the ketones don't fully explain the gap.",
+        "DKA is a syndrome with a cause — you're obligated to find the precipitant. The classic <b>'I's</b>: <b>infection</b>, <b>infarction</b> (ECG/troponin — silent MI), <b>insulin omission</b> (present here), <b>iatrogenesis</b> (the SGLT2 inhibitor itself), and intoxication/pancreatitis. Stop the empagliflozin, and don't sign off on the metabolic fix while the precipitant smolders."
+      ]
+    },
+    dx:"Euglycemic diabetic ketoacidosis (SGLT2-associated)",
+    ddx:[
+      ["Ketoacidosis","Diabetic (euglycemic), alcoholic, starvation"],
+      ["Lactic acidosis","Sepsis/hypoperfusion — lactate 2.0, reassess"],
+      ["Toxic / other","Methanol/ethylene glycol (osmolar gap), salicylates, uremia"],
+      ["Precipitant","Infection, MI, pancreatitis, insulin omission, the SGLT2 inhibitor"]
+    ],
+    confounders:[
+      ["Anchoring trap","A near-normal glucose labeled 'gastroenteritis' — euglycemic DKA is ketoacidosis WITHOUT hyperglycemia"],
+      ["Can't-miss","The precipitant: silent MI, occult infection, pancreatitis — DKA is always secondary to something"],
+      ["Mimic","Other anion-gap acidoses (lactic, toxic alcohols, salicylate) — check osmolar gap if ketones don't explain it"]
+    ],
+    workup:[
+      ["VBG + anion gap","Confirm acidosis and gap; trend bicarbonate/pH"],
+      ["β-hydroxybutyrate","Quantify ketosis (urine ketones underestimate)"],
+      ["Serial K (+Mg/Phos)","K 5.2 but total-body depleted — drives insulin/repletion timing"],
+      ["ECG + troponin","Silent MI as precipitant; potassium-related changes"],
+      ["Infection workup","CBC, cultures, exam — common trigger"],
+      ["Lipase, osmolar gap","Pancreatitis; exclude toxic alcohols if gap unexplained"]
+    ],
+    mgmt:[
+      "Treat as DKA despite normal glucose: IV fluids + insulin infusion WITH dextrose (D5/D10) to clear ketones at euglycemia",
+      "Potassium repletion before/with insulin; hold insulin if K <3.3 until repleted",
+      "STOP the SGLT2 inhibitor",
+      "Find and treat the precipitant (infection, MI, pancreatitis, insulin omission)",
+      "Trend gap/ketones to resolution; transition to subQ insulin with overlap"
+    ],
+    pearl:"In euglycemic DKA the glucose lies — the diagnosis lives in the anion gap and the ketones. And DKA is never the whole story: every case owes you a precipitant, so hunt the silent MI and the occult infection before you call it solved."
+  },
+  {
+    id:"tran", name:"Ms. Tran · Syncope", system:"Cardiology / Neuro", acuity:2,
+    tags:["Syncope","Vasovagal anchor","Can't-miss"],
+    summary:"68F admitted after passing out. The ED note says 'vasovagal.' Before anyone agrees — work up the syncope and find the cardiac and vascular causes that masquerade as benign.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (now)",val:"HR 58. BP 124/76 (<span class='flag'>no orthostatics done</span>). SpO₂ 97%. Afebrile. <b>Systolic ejection murmur</b> noted."},
+      {ic:"💧",lbl:"I/O · weight",val:"Even."},
+      {ic:"🌙",lbl:"Overnight",val:"Syncope occurred <b>while climbing stairs (exertional)</b>, <b>no prodrome</b>, brief LOC, rapid recovery, no postictal confusion. Similar episode last month. <span class='flag'>Family history of sudden death.</span>"},
+      {ic:"💊",lbl:"MAR",val:"Home metoprolol, amlodipine. No new meds."},
+      {ic:"🧪",lbl:"Labs",val:"Hgb 12.6. Cr 1.0. Trop pending. BNP mild. Electrolytes normal."},
+      {ic:"🩻",lbl:"Imaging",val:"ECG: sinus brady, ?LVH, <span class='flag'>QTc 480</span>, no prior. <span class='flag'>No echo yet.</span> Telemetry on."},
+      {ic:"📋",lbl:"Plan check",val:"Labeled 'vasovagal.' No orthostatics, no echo, no risk stratification."}
+    ],
+    question:"Exertional syncope, no prodrome, a systolic murmur, QTc 480, and a family history of sudden death — labeled 'vasovagal.' One-liner, then work it up — why is that label dangerous?",
+    model:{
+      oneliner:"68F with exertional syncope without prodrome, a systolic ejection murmur, a borderline-long QTc, and a family history of sudden cardiac death — a presentation with multiple high-risk features that argue strongly against benign vasovagal syncope and toward a cardiac cause.",
+      paras:[
+        "The 'vasovagal' label is dangerous because her features are textbook red flags for <b>cardiac syncope</b>: it happened <b>on exertion</b>, there was <b>no prodrome</b>, and there's a <b>family history of sudden death</b>. Vasovagal syncope usually has a trigger and a prodrome (warmth, nausea, tunneling) and occurs upright at rest — none of which fits. Mislabeling cardiac syncope as benign is how a patient goes home and dies of the next episode.",
+        "Structure the differential by mechanism: <b>cardiac arrhythmia</b> (brady/heart block given QTc 480 and the beta-blocker, or a tachyarrhythmia/long-QT), <b>outflow obstruction</b> (aortic stenosis or HOCM given the murmur), <b>reflex/orthostatic</b> (do the orthostatics, review meds — but the story doesn't fit vasovagal), and <b>neurologic</b> (seizure — though rapid recovery without a postictal state argues against it; distinguish syncope from seizure).",
+        "Round it out with the can't-miss vascular/embolic causes: <b>massive PE, aortic dissection, subarachnoid hemorrhage, and occult GI bleed</b> can all present as syncope. Get an <b>echo</b> (AS/HOCM), <b>continuous telemetry</b> (capture the arrhythmia), serial troponin, orthostatic vitals, and a careful history — and <b>risk-stratify</b> rather than reassure."
+      ]
+    },
+    dx:"High-risk syncope — likely cardiac (arrhythmia vs outflow obstruction)",
+    ddx:[
+      ["Cardiac — arrhythmia","Brady/heart block (QTc 480, beta-blocker), long-QT, VT"],
+      ["Cardiac — obstructive","Aortic stenosis / HOCM (exertional, murmur)"],
+      ["Reflex / orthostatic","Vasovagal (doesn't fit), orthostatic — do the vitals, review meds"],
+      ["Neurologic","Seizure (rapid recovery argues against) — distinguish from syncope"]
+    ],
+    confounders:[
+      ["Anchoring trap","'Vasovagal' applied to exertional, prodrome-less syncope with a family history of sudden death — the opposite of benign"],
+      ["Can't-miss","Cardiac syncope (arrhythmia, AS, HOCM, long-QT), PE, aortic dissection, SAH, occult GI bleed"],
+      ["Mimic","Seizure vs syncope — postictal confusion and tongue-biting separate them"]
+    ],
+    workup:[
+      ["12-lead ECG + telemetry","QTc, blocks, pre-excitation, Brugada, ischemia; capture the arrhythmia"],
+      ["Echocardiogram","Aortic stenosis, HOCM, EF, RV strain"],
+      ["Orthostatic vitals","Not yet done — simple and high-yield"],
+      ["Serial troponin","Ischemia as the cause"],
+      ["Medication review","Beta-blocker / QT-prolonging agents contributing"],
+      ["Risk score (e.g., Canadian Syncope)","Admission vs discharge decision"]
+    ],
+    mgmt:[
+      "Admit/monitor on telemetry given high-risk features — do NOT discharge as vasovagal",
+      "Echo for outflow obstruction; cardiology/EP consult for arrhythmia/long-QT",
+      "Review and hold QT-prolonging/bradycardic meds as appropriate",
+      "Exclude PE/dissection/SAH/GI bleed if the history suggests",
+      "Pacemaker/ICD evaluation if findings indicate"
+    ],
+    pearl:"Exertional syncope, no prodrome, or a family history of sudden death turns 'vasovagal' into a dangerous guess. Syncope is a risk-stratification problem — find the cardiac and vascular causes before you reassure."
+  },
+  {
+    id:"acharya", name:"Mr. Acharya · Neutropenic fever", system:"Heme-Onc / ID", acuity:3,
+    tags:["Neutropenic fever","Empiric antibiotics","Occult source"],
+    summary:"54M, day 8 after chemotherapy for AML, spikes a fever. ANC is 200. There's no obvious source. Work it up — and know why 'wait for cultures' is the wrong move.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (now)",val:"Tmax <b>38.6</b>. HR 104. BP 108/66. RR 18. SpO₂ 96% RA. Fatigued, mild mucositis."},
+      {ic:"💧",lbl:"I/O · weight",val:"Adequate."},
+      {ic:"🌙",lbl:"Overnight",val:"Single fever spike. <b>No localizing symptoms.</b> Has a tunneled central line. <span class='flag'>Mild perirectal discomfort</span> (no DRE performed)."},
+      {ic:"💊",lbl:"MAR",val:"<span class='flag'>No antibiotics started yet.</span> Antiemetics. No G-CSF. Last chemo day 0."},
+      {ic:"🧪",lbl:"Labs",val:"<span class='flag'>ANC 200 (severe neutropenia)</span>. WBC 0.8. Plt 22. Hgb 8.4. Lactate 1.4. Cr 0.9. Cultures being drawn (peripheral + line)."},
+      {ic:"🩻",lbl:"Imaging",val:"CXR clear — <span class='flag'>but may be falsely negative without neutrophils.</span> No CT."},
+      {ic:"📋",lbl:"Plan check",val:"Antibiotics not given. Source-control exam incomplete. Line not assessed."}
+    ],
+    question:"Fever, ANC 200, no localizing source, a central line, and perirectal discomfort. One-liner, then work it up — why must antibiotics not wait, and where are the hidden sources?",
+    model:{
+      oneliner:"54M with severe chemotherapy-induced neutropenia (ANC 200) on day 8 post-AML induction, now febrile without a localizing source — neutropenic fever, an oncologic emergency requiring empiric broad-spectrum antibiotics within the hour regardless of culture results.",
+      paras:[
+        "The central teaching is speed: neutropenic fever is treated as <b>septic until proven otherwise</b>, and an empiric <b>anti-pseudomonal beta-lactam</b> (cefepime or piperacillin-tazobactam) goes in <b>within 60 minutes</b> — after drawing peripheral and line cultures, but never waiting for them. Because he has no neutrophils, the usual signs (purulence, infiltrate, peritonism) are blunted or absent; a clear CXR is <b>falsely reassuring</b> and a normal exam does not exclude a serious source.",
+        "Hunt the hidden sources methodically: the <b>central line</b> (line-associated bloodstream infection — paired cultures, exit-site exam), the <b>gut and mouth</b> (mucositis, neutropenic enterocolitis/typhlitis, C. difficile), the <b>perineum</b> (perirectal abscess — examine visually but <b>do NOT perform a DRE</b>, which can seed bacteremia in a neutropenic thrombocytopenic patient), the skin/lungs, and — if fever persists — <b>invasive fungal disease</b> (candidemia, aspergillosis).",
+        "Risk-stratify and support: assess with <b>MASCC</b>, watch closely for evolving sepsis (his HR and soft BP already warrant it), transfuse for thrombocytopenia as needed, and <b>add gram-positive coverage (vancomycin)</b> for line infection, skin/soft-tissue, mucositis, or hemodynamic instability. Layer on antifungal/antiviral coverage if fever persists or specific signs emerge."
+      ]
+    },
+    dx:"Febrile neutropenia — oncologic emergency, empiric antibiotics now",
+    ddx:[
+      ["Bloodstream / line","Central-line-associated infection — paired cultures, exit-site exam"],
+      ["GI / mucosal","Mucositis, typhlitis (neutropenic enterocolitis), C. difficile"],
+      ["Perineal / skin","Perirectal abscess (no DRE), cellulitis"],
+      ["Fungal / viral","Candida, Aspergillus, HSV/VZV — especially if fever persists"]
+    ],
+    confounders:[
+      ["Don't wait","Cultures and imaging must not delay empiric antibiotics — the source is often never found"],
+      ["Falsely reassuring","No neutrophils → blunted signs: a clear CXR, no pus, and a soft exam can all coexist with severe infection"],
+      ["Procedure trap","Avoid digital rectal exam and rectal meds in neutropenic thrombocytopenia — risk of bacteremia/bleeding"]
+    ],
+    workup:[
+      ["Blood cultures ×paired","Peripheral + each line lumen BEFORE antibiotics — but don't delay the drug"],
+      ["Empiric antibiotics ≤60 min","Anti-pseudomonal beta-lactam — the time-critical step"],
+      ["Full source exam","Line site, mouth/mucositis, perineum (no DRE), skin, lungs"],
+      ["CXR ± CT","Chest; CT sinus/chest/abdomen if persistent fever or localizing signs"],
+      ["C. diff, urine, viral panel","Stool if diarrhea; UA/culture; respiratory viral panel"],
+      ["MASCC risk score","Stratify high vs low risk; guides setting and oral options"]
+    ],
+    mgmt:[
+      "Empiric anti-pseudomonal beta-lactam within 60 minutes (cefepime or pip-tazo) — do NOT wait for cultures",
+      "Add vancomycin for line infection, skin/soft tissue, mucositis, or instability",
+      "Add antifungal (and antiviral) if fever persists or signs emerge",
+      "Source control: assess/remove infected line per ID; avoid DRE/rectal meds",
+      "Supportive care: transfuse platelets, monitor for sepsis, consider G-CSF per protocol; involve ID/heme-onc"
+    ],
+    pearl:"In neutropenic fever the clock, not the culture, drives you — antibiotics within the hour. With no neutrophils the exam and CXR can be falsely calm, so assume a hidden source (line, gut, perineum) and keep your hands off the rectum."
+  },
+  {
+    id:"tropp", name:"Mr. Tropp · ACS / NSTEMI", system:"Cardiology", acuity:3,
+    tags:["ACS","NSTEMI","Risk score"],
+    hook:"<b>Tropp → troponin.</b> The serial cardiac biomarker that confirms infarction and, with a dynamic ECG, separates unstable angina from NSTEMI / STEMI.",
+    summary:"58M, diabetic smoker, with 40 minutes of crushing substernal pressure radiating to the jaw, diaphoresis, and a rising troponin. This one IS cardiac — now risk-stratify and manage.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (now)",val:"HR 96. BP 148/88. RR 18. SpO₂ 95% RA. Pain <b>7/10</b> pressure, radiates to jaw/left arm, diaphoretic and nauseated."},
+      {ic:"💧",lbl:"I/O · weight",val:"Even."},
+      {ic:"🌙",lbl:"Overnight",val:"Rest pain ×40 min, <span class='flag'>ongoing despite 2 SL nitro.</span> No syncope, no tearing quality."},
+      {ic:"💊",lbl:"MAR",val:"ASA 324 chewed. SL nitro ×2. Home metformin, atorvastatin. <span class='flag'>No heparin/P2Y₁₂ load yet.</span>"},
+      {ic:"🧪",lbl:"Labs",val:"Troponin <span class='flag'>rising: 0 h 0.20 → 3 h 0.85</span>. K 4.0. Cr 1.1. Glucose 210."},
+      {ic:"🩻",lbl:"Imaging",val:"ECG: <b>1–2 mm ST depression + T-inversions V4–V6</b> (no ST elevation), dynamic vs prior. CXR clear."},
+      {ic:"📋",lbl:"Plan check",val:"No GRACE/TIMI documented. Antiplatelet/anticoag not started. Cardiology not called."}
+    ],
+    question:"Crushing chest pain, dynamic lateral ST depressions, troponin 0.20→0.85. One-liner, then manage — NSTEMI vs STEMI, how do you risk-stratify, and what's the timeline to cath?",
+    model:{
+      oneliner:"58M with multiple cardiac risk factors and ongoing rest angina, dynamic lateral ST-segment depression with T-wave inversion (no ST elevation) and a rising troponin (0.20→0.85) — a non-ST-elevation myocardial infarction (NSTEMI / type 1 ACS).",
+      paras:[
+        "The diagnosis is clinched by the trio: ischemic symptoms, <b>dynamic ECG changes</b>, and a <b>rising troponin</b>. No ST elevation makes it NSTEMI rather than STEMI — which changes the clock. STEMI needs <b>immediate reperfusion</b> (primary PCI <90 min, or lysis if PCI unavailable); NSTEMI is <b>risk-stratified to an early invasive strategy</b>, typically angiography within 24 h (sooner if refractory pain, hemodynamic/electrical instability, or a very high GRACE score).",
+        "Start guideline therapy now: <b>antiplatelet</b> (aspirin given ± a P2Y₁₂ inhibitor per the cath plan), <b>anticoagulation</b> (heparin), high-intensity statin, and anti-ischemics (nitrates, a beta-blocker if no contraindication, oxygen only if hypoxic). Compute <b>GRACE/TIMI</b> to quantify risk and justify timing — don't eyeball it.",
+        "Hold the anchor lightly: confirm this is <b>type 1</b> (plaque rupture) rather than <b>type 2</b> (supply–demand mismatch from anemia, tachyarrhythmia, sepsis, hypertensive crisis), and keep the troponin-raising mimics in mind — <b>PE, myopericarditis, takotsubo</b>, and especially <b>aortic dissection</b>, which would contraindicate the anticoagulation you're about to give."
+      ]
+    },
+    dx:"NSTEMI (type 1 ACS) — early invasive strategy",
+    ddx:[
+      ["STEMI vs NSTEMI","No ST elevation → NSTEMI; serial ECG to catch evolution"],
+      ["Type 2 MI","Demand ischemia — anemia, tachyarrhythmia, sepsis, hypertensive crisis"],
+      ["Troponin mimic","PE, myopericarditis, takotsubo, renal failure"],
+      ["Must exclude","Aortic dissection — would contraindicate anticoagulation"]
+    ],
+    confounders:[
+      ["Anchoring trap","Calling every troponin bump 'NSTEMI' — distinguish type 1 (plaque) from type 2 (demand); they're managed differently"],
+      ["Catastrophic error","Anticoagulating an aortic dissection mistaken for ACS — reassess if pain is tearing or pulses unequal"],
+      ["Mimic","Myopericarditis, takotsubo, and PE all raise troponin — context and ECG separate them"]
+    ],
+    workup:[
+      ["Serial troponin + ECG","Trend the biomarker; repeat ECG for STEMI evolution / dynamic change"],
+      ["GRACE / TIMI score","Quantifies risk → drives invasive timing"],
+      ["Echocardiogram","Wall-motion, EF, mechanical complications"],
+      ["CBC, BMP, A1c, lipids","Anemia (type 2), renal function for contrast, risk factors"],
+      ["Reassess for dissection","Both-arm BP / mediastinum before full anticoagulation if any doubt"]
+    ],
+    mgmt:[
+      "Aspirin + P2Y₁₂ inhibitor (per cath plan) + anticoagulation (heparin); high-intensity statin",
+      "Anti-ischemics: nitrates, beta-blocker (if no shock/bradycardia), O₂ only if SpO₂ <90%",
+      "Early invasive angiography within 24 h; immediately if refractory pain or instability",
+      "Continuous telemetry; cardiology consult",
+      "If it declares as STEMI: activate the cath lab for primary PCI (door-to-balloon <90 min)"
+    ],
+    pearl:"Mr. Tropp earns his name: ischemic symptoms + dynamic ECG + a rising troponin = ACS. No ST elevation makes it NSTEMI and buys an early-invasive window — but always ask 'type 1 or type 2?' and clear the dissection before you anticoagulate."
+  },
+  {
+    id:"epps", name:"Mrs. Epps · Anaphylaxis", system:"Allergy / Critical care", acuity:3,
+    tags:["Anaphylaxis","Shock","Airway"],
+    hook:"<b>Epps → EpiPen.</b> IM epinephrine is first-line and life-saving; antihistamines and steroids are adjuncts, never the opening move.",
+    summary:"34F gets her first dose of IV cefazolin and within minutes develops diffuse hives, wheeze, throat tightness, and a falling blood pressure. Recognize and treat.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (now)",val:"HR 124. BP <b>84/50</b>. RR 26 with audible wheeze. SpO₂ 91%. Flushed. Onset 5 min after the antibiotic."},
+      {ic:"💧",lbl:"I/O · weight",val:"n/a acute."},
+      {ic:"🌙",lbl:"Overnight",val:"Was stable; abrupt urticaria, <b>lip/tongue swelling</b>, \"throat closing,\" cough/wheeze, lightheaded."},
+      {ic:"💊",lbl:"MAR",val:"<span class='flag'>IV cefazolin (just given, still infusing).</span> <span class='flag'>No epinephrine — nurse gave IV diphenhydramine.</span>"},
+      {ic:"🧪",lbl:"Labs",val:"Pending. Tryptase not yet sent."},
+      {ic:"🩻",lbl:"Imaging",val:"n/a."},
+      {ic:"📋",lbl:"Plan check",val:"Epinephrine NOT given. Antibiotic still infusing. Airway not formally assessed."}
+    ],
+    question:"Hives + wheeze + angioedema + hypotension minutes after an antibiotic. One-liner, then act — what's the single most important intervention, and what's being done wrong?",
+    model:{
+      oneliner:"34F with acute-onset multisystem involvement — urticaria/angioedema, bronchospasm with hypoxia, and hypotension — minutes after IV cefazolin: anaphylaxis (anaphylactic shock), a clinical, time-critical diagnosis.",
+      paras:[
+        "This meets anaphylaxis criteria (acute onset, skin/mucosa + respiratory compromise + hypotension after a likely allergen). The single most important intervention is <b>intramuscular epinephrine</b> (0.3–0.5 mg of 1:1000, anterolateral thigh), repeated every 5–15 minutes as needed. The error in front of you is twofold: the <b>offending antibiotic is still infusing</b> (stop it), and the team reached for <b>diphenhydramine instead of epinephrine</b> — antihistamines and steroids treat the hives and may blunt a biphasic reaction, but they do nothing for airway edema or shock and must never delay epinephrine.",
+        "Run the resuscitation in parallel: <b>stop the trigger</b>, position supine with legs raised, high-flow oxygen, <b>large-volume IV crystalloid</b> for distributive shock, and prepare for a difficult airway (angioedema can occlude it fast — early anesthesia/ENT if stridor progresses). For refractory hypotension, an <b>epinephrine infusion</b>; for patients on a beta-blocker, add <b>glucagon</b>.",
+        "Then the mimics, so you don't mis-treat: a <b>vasovagal</b> faint is bradycardic and pale without urticaria/wheeze; <b>scombroid</b> mimics flushing after fish; and crucially <b>ACE-inhibitor (bradykinin) and hereditary angioedema</b> cause swelling <b>without urticaria and don't respond to epinephrine</b> — they need C1-esterase inhibitor/icatibant. Send a <b>tryptase</b> to support the diagnosis retrospectively and observe for a biphasic reaction."
+      ]
+    },
+    dx:"Anaphylaxis / anaphylactic shock (drug-triggered)",
+    ddx:[
+      ["Distributive shock","Anaphylaxis (leading) — give epinephrine"],
+      ["Vasovagal","Bradycardic, pale, no urticaria/wheeze"],
+      ["Angioedema w/o urticaria","ACE-inhibitor or hereditary (bradykinin) — epi-unresponsive"],
+      ["Other","Scombroid, panic, septic shock"]
+    ],
+    confounders:[
+      ["Treatment trap","Antihistamines/steroids FIRST — they don't treat airway or shock; epinephrine is the answer"],
+      ["Mimic","ACE-i / hereditary angioedema: swelling without hives, epi-unresponsive → C1-inhibitor/icatibant"],
+      ["Beta-blocker pitfall","Epinephrine-refractory anaphylaxis on a beta-blocker → add glucagon"]
+    ],
+    workup:[
+      ["Clinical diagnosis","Don't wait for tests — treat on recognition"],
+      ["Serum tryptase","Supports anaphylaxis retrospectively (draw within hours)"],
+      ["Airway assessment","Stridor/voice change/tongue swelling → early advanced airway"],
+      ["Continuous monitoring","Biphasic reaction can recur hours later"],
+      ["Allergy referral","Document the trigger; outpatient testing + auto-injector"]
+    ],
+    mgmt:[
+      "STOP the trigger (the infusing antibiotic) immediately",
+      "IM epinephrine 0.3–0.5 mg (1:1000), anterolateral thigh, repeat q5–15 min — FIRST line",
+      "Supine + legs up, high-flow O₂, large-volume IV crystalloid for shock",
+      "Adjuncts AFTER epinephrine: antihistamines, corticosteroids, bronchodilators",
+      "Refractory: epinephrine infusion; glucagon if on a beta-blocker; prepare a difficult airway (ENT/anesthesia)",
+      "Observe for biphasic reaction; discharge with an auto-injector + allergy follow-up"
+    ],
+    pearl:"Mrs. Epps needs her EpiPen, not a Benadryl. Anaphylaxis is a clinical diagnosis treated with IM epinephrine first — stop the trigger, resuscitate airway and circulation, and remember the epi-unresponsive bradykinin angioedema mimic."
+  },
+  {
+    id:"charcot", name:"Mr. Charcot · Cholangitis", system:"GI / ID", acuity:3,
+    tags:["Cholangitis","Sepsis","Source control"],
+    hook:"<b>Charcot → Charcot's triad</b> (fever, jaundice, RUQ pain). Add hypotension + confusion and it's <b>Reynolds' pentad</b> — suppurative cholangitis.",
+    summary:"71M with gallstones presents with fever, jaundice, and RUQ pain; he's now hypotensive and confused. Work up the biliary sepsis and decide on source control.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (now)",val:"Tmax <b>39.0</b>. HR 116. BP <b>88/52</b>. RR 22. SpO₂ 95%. <b>Jaundiced and confused.</b>"},
+      {ic:"💧",lbl:"I/O · weight",val:"Oliguric."},
+      {ic:"🌙",lbl:"Overnight",val:"Worsening RUQ pain radiating to the back, rigors, dark urine, then confusion and a falling pressure."},
+      {ic:"💊",lbl:"MAR",val:"<span class='flag'>No antibiotics yet.</span> Antiemetic. NPO."},
+      {ic:"🧪",lbl:"Labs",val:"WBC 19. <b>T.bili 6.8 (direct)</b>. <b>Alk phos 410</b>. ALT 180. Lipase normal. Lactate 3.2. Cr 1.8. INR 1.4."},
+      {ic:"🩻",lbl:"Imaging",val:"RUQ US: <b>CBD dilated 11 mm with a stone</b>; gallbladder stones. No CT yet."},
+      {ic:"📋",lbl:"Plan check",val:"No antibiotics, no biliary drainage plan, GI/ERCP not called."}
+    ],
+    question:"Fever + jaundice + RUQ pain, now hypotensive and confused, dilated CBD with a stone. One-liner, then work it up — what's the definitive treatment beyond antibiotics?",
+    model:{
+      oneliner:"71M with choledocholithiasis presenting with Charcot's triad (fever, jaundice, RUQ pain) now progressed to Reynolds' pentad with hypotension and altered mentation — acute ascending (suppurative) cholangitis with septic shock from an obstructed, infected biliary tree.",
+      paras:[
+        "Two things have to happen at once. First, <b>treat the sepsis</b>: cultures, broad-spectrum antibiotics covering enteric gram-negatives and anaerobes, and fluid resuscitation for the shock (lactate 3.2, MAP low). Second — the teaching point — antibiotics alone won't cure an obstructed, infected duct. The definitive treatment is <b>biliary decompression</b>, usually <b>urgent ERCP</b> (or PTC/surgical drainage if ERCP fails). Pus under pressure behind an obstruction is surgical-emergency physiology; <b>source control</b> is the cure.",
+        "Confirm and localize: the labs show an <b>obstructive (cholestatic) pattern</b> — alk phos and direct bilirubin elevated out of proportion to the transaminases — and the ultrasound shows a <b>dilated CBD with a stone</b>. You don't need to wait for MRCP to act in a septic patient. Trend lactate and coags (the INR of 1.4 reflects both sepsis and biliary dysfunction).",
+        "Frame the differential so you don't mistreat: <b>cholecystitis</b> (RUQ pain + Murphy's but usually without deep jaundice), <b>biliary colic</b> (pain without fever/cholestasis), <b>hepatitis</b> (transaminase-predominant), <b>pancreatitis</b> (lipase — normal here), and a <b>right lower-lobe pneumonia</b> masquerading as RUQ pain. The pentad plus the imaging make cholangitis the answer that needs a drain."
+      ]
+    },
+    dx:"Acute suppurative (ascending) cholangitis with septic shock",
+    ddx:[
+      ["Biliary","Cholangitis (leading), cholecystitis, biliary colic, choledocholithiasis"],
+      ["Hepatic","Acute hepatitis — transaminase-predominant"],
+      ["Pancreatic","Gallstone pancreatitis — check lipase"],
+      ["Mimic","Right lower-lobe pneumonia, hepatic abscess, sepsis from another source"]
+    ],
+    confounders:[
+      ["Source control","Antibiotics alone fail an obstructed duct — urgent ERCP/decompression is the cure"],
+      ["Anchoring trap","Calling it 'cholecystitis' and missing the obstructing CBD stone / Reynolds' pentad"],
+      ["Mimic","Cholestatic vs hepatocellular LFT pattern separates obstruction/cholangitis from hepatitis"]
+    ],
+    workup:[
+      ["LFTs + pattern","Cholestatic (↑alk phos/direct bili) confirms obstruction"],
+      ["RUQ ultrasound","CBD dilation + stone — first-line, already diagnostic"],
+      ["Blood cultures + lactate","Sepsis severity and organism"],
+      ["MRCP/CT if unclear","Define anatomy when US is inconclusive — don't delay drainage in shock"],
+      ["Coags","Sepsis + biliary dysfunction; pre-procedure for ERCP"]
+    ],
+    mgmt:[
+      "Resuscitate: IV fluids, cultures, broad-spectrum antibiotics (enteric GNRs + anaerobes)",
+      "URGENT biliary decompression — ERCP with stone extraction/stent; PTC or surgery if ERCP fails",
+      "ICU-level monitoring; vasopressors if MAP <65 after fluids",
+      "Correct coagulopathy as needed around ERCP",
+      "Interval cholecystectomy after recovery to prevent recurrence"
+    ],
+    pearl:"Mr. Charcot's triad warns you; Reynolds' pentad means he's septic now. Cholangitis is an obstructed, infected duct — antibiotics buy time, but ERCP decompression is the cure. Image the bile duct and call GI early."
+  },
+  {
+    id:"murphy", name:"Mr. Murphy · Cholecystitis", system:"GI / Surgery", acuity:2,
+    tags:["Cholecystitis","RUQ pain"],
+    hook:"<b>Murphy → Murphy's sign</b> — inspiratory arrest on RUQ palpation, the bedside clue to an inflamed gallbladder.",
+    summary:"49F, obese, with several hours of constant RUQ pain after a fatty meal, low-grade fever, and a positive Murphy's sign. Work up the right-upper-quadrant pain.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (now)",val:"Tmax 37.9. HR 92. BP 132/80. SpO₂ 98%. RUQ tenderness, <b>+Murphy's sign</b>, no jaundice."},
+      {ic:"💧",lbl:"I/O · weight",val:"Even."},
+      {ic:"🌙",lbl:"Overnight",val:"Constant RUQ/epigastric pain ×6 h, radiates to the right scapula, nausea/vomiting, worse after eating."},
+      {ic:"💊",lbl:"MAR",val:"Analgesia, antiemetic, NPO. No antibiotics yet."},
+      {ic:"🧪",lbl:"Labs",val:"WBC 13. <b>T.bili 1.2 (normal)</b>. Alk phos 130 (mild). ALT 60. Lipase normal."},
+      {ic:"🩻",lbl:"Imaging",val:"RUQ US: <b>wall thickening, pericholecystic fluid, stones, sonographic Murphy's</b>; <b>CBD normal (5 mm)</b>."},
+      {ic:"📋",lbl:"Plan check",val:"Surgery not consulted; antibiotic/cholecystectomy timing not decided."}
+    ],
+    question:"Constant RUQ pain, positive Murphy's, a wall-thickened stone-filled gallbladder with a NORMAL bile duct. One-liner, then work it up — and what would raise it from cholecystitis to something worse?",
+    model:{
+      oneliner:"49F with classic biliary risk factors and constant RUQ pain, a positive clinical and sonographic Murphy's sign, leukocytosis, and ultrasound showing gallbladder wall thickening, pericholecystic fluid, and stones with a normal CBD — acute calculous cholecystitis.",
+      paras:[
+        "The picture is coherent: persistent (not colicky) RUQ pain, a positive Murphy's sign, mild inflammation, and an ultrasound showing the wall edema and pericholecystic fluid of an inflamed gallbladder, with a <b>normal bilirubin and CBD</b> arguing against duct obstruction. Management is <b>analgesia, antibiotics, and early laparoscopic cholecystectomy</b> (generally within the first days); a HIDA scan is the tiebreaker if the ultrasound is equivocal.",
+        "The key escalation to watch is the jump from cholecystitis to <b>cholangitis</b>: if she develops <b>fever + jaundice + a rising bilirubin/alk phos</b> (Charcot's triad), you've moved to an obstructed, infected duct that needs ERCP, not just a cholecystectomy. Likewise a markedly elevated lipase would flag <b>gallstone pancreatitis</b>. Trend the LFTs and lipase to catch these.",
+        "Hold the differential open: <b>inferior MI</b> and a <b>right lower-lobe pneumonia</b> can both present as RUQ/epigastric pain (check an ECG and the lungs in the right patient), and <b>peptic ulcer disease</b> and <b>hepatitis</b> are mimics. In the diabetic or critically ill, remember <b>acalculous cholecystitis</b>, which carries higher morbidity."
+      ]
+    },
+    dx:"Acute calculous cholecystitis",
+    ddx:[
+      ["Biliary","Cholecystitis (leading); biliary colic; progression to cholangitis"],
+      ["Pancreatic","Gallstone pancreatitis — check lipase"],
+      ["GI / hepatic","Peptic ulcer disease, hepatitis"],
+      ["Mimic","Inferior MI, right lower-lobe pneumonia"]
+    ],
+    confounders:[
+      ["Escalation","Fever + jaundice + rising bili (Charcot) = cholangitis needing ERCP, not just surgery"],
+      ["Can't-miss mimic","Inferior MI and RLL pneumonia present as RUQ/epigastric pain — get an ECG + lung exam"],
+      ["Special host","Acalculous cholecystitis in the diabetic/critically ill — higher morbidity, easily missed"]
+    ],
+    workup:[
+      ["RUQ ultrasound","First-line — wall thickening, pericholecystic fluid, stones, sonographic Murphy's"],
+      ["LFTs + lipase","Normal bili/CBD argues against obstruction; trend to catch cholangitis/pancreatitis"],
+      ["HIDA scan","If ultrasound equivocal — non-filling gallbladder confirms"],
+      ["ECG","Exclude inferior MI in the right patient"],
+      ["CBC / inflammatory markers","Severity of inflammation"]
+    ],
+    mgmt:[
+      "Analgesia, antiemetics, IV fluids, NPO",
+      "Antibiotics covering enteric gram-negatives",
+      "Early laparoscopic cholecystectomy (surgery consult); percutaneous cholecystostomy if non-operative",
+      "If LFTs rise / jaundice develops → suspect CBD stone/cholangitis → MRCP/ERCP",
+      "Reassess for pancreatitis (lipase) and the cardiac mimic (ECG)"
+    ],
+    pearl:"Mr. Murphy's sign points at the gallbladder. Calculous cholecystitis with a normal bile duct is analgesia-antibiotics-and-early-cholecystectomy — but trend the LFTs, because the moment jaundice and fever appear you've graduated to cholangitis."
+  },
+  {
+    id:"virchow", name:"Mr. Virchow · DVT / VTE", system:"Vascular / Heme", acuity:2,
+    tags:["DVT","VTE","Wells score"],
+    hook:"<b>Virchow → Virchow's triad</b> (venous stasis, endothelial injury, hypercoagulability) — the three drivers of clot.",
+    summary:"66M, three weeks after a long-haul flight and with a recent cancer diagnosis, develops unilateral painful left-calf swelling. Work up the swollen leg.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (now)",val:"HR 88. BP 130/78. Afebrile. SpO₂ 97%. Left calf <b>4 cm larger</b> than right, warm, tender, mild erythema."},
+      {ic:"💧",lbl:"I/O · weight",val:"Even."},
+      {ic:"🌙",lbl:"Overnight",val:"Progressive left-leg swelling/pain over 2 days. <b>No chest pain or dyspnea.</b> No trauma."},
+      {ic:"💊",lbl:"MAR",val:"<span class='flag'>No anticoagulation/prophylaxis.</span> Recent chemotherapy."},
+      {ic:"🧪",lbl:"Labs",val:"D-dimer elevated. Cr 1.0. CBC normal. Plt 240."},
+      {ic:"🩻",lbl:"Imaging",val:"None yet — compression ultrasound pending."},
+      {ic:"📋",lbl:"Plan check",val:"Wells score not calculated; no Dopplers ordered; PE not assessed."}
+    ],
+    question:"Unilateral painful warm calf swelling with cancer and recent immobility. One-liner, then work it up — how do you confirm it, and what must you not miss alongside it?",
+    model:{
+      oneliner:"66M with active malignancy and recent prolonged immobility (multiple Virchow's-triad risk factors) presenting with unilateral, painful, warm calf swelling — a high clinical pretest probability for acute lower-extremity deep vein thrombosis.",
+      paras:[
+        "Use a structured pathway: a <b>Wells DVT score</b> stratifies pretest probability. With his risk factors and exam this is <b>high probability</b>, where a D-dimer adds little and you go straight to the confirmatory test — <b>compression ultrasonography</b> (loss of vein compressibility = DVT). In <b>low</b>-probability patients, a normal high-sensitivity D-dimer can safely exclude it.",
+        "The thing you must not miss alongside the leg is <b>pulmonary embolism</b> — DVT and PE are one disease. Screen for dyspnea, pleuritic pain, tachycardia, and hypoxia; he's asymptomatic now, but counsel return precautions and keep a low threshold for CTPA. Once confirmed, start <b>anticoagulation</b> (in active cancer, a DOAC or LMWH per current guidance), and weigh provoked vs unprovoked to set duration.",
+        "Don't anchor on clot before excluding the mimics of a swollen leg: <b>cellulitis</b> (fever, spreading erythema, a portal of entry), a <b>ruptured Baker's cyst</b> (sudden calf pain, sometimes a crescent bruise), <b>post-thrombotic syndrome</b> or chronic venous insufficiency, <b>lymphedema</b>, and a <b>calf hematoma</b>. Bilateral symmetric edema instead points to a systemic cause (heart/kidney/liver)."
+      ]
+    },
+    dx:"Acute lower-extremity DVT (high pretest probability, cancer-provoked)",
+    ddx:[
+      ["Venous","DVT (leading) — confirm with compression US"],
+      ["Infective","Cellulitis — fever, spreading erythema, portal of entry"],
+      ["Musculoskeletal","Ruptured Baker's cyst, calf strain/hematoma"],
+      ["Chronic","Post-thrombotic syndrome, venous insufficiency, lymphedema"]
+    ],
+    confounders:[
+      ["Can't-miss","Concurrent pulmonary embolism — DVT and PE are the same disease; screen for it"],
+      ["Mimic","Cellulitis, ruptured Baker's cyst, lymphedema, calf hematoma all swell a leg"],
+      ["Pattern clue","Bilateral symmetric edema → systemic cause (heart/kidney/liver), not DVT"]
+    ],
+    workup:[
+      ["Wells DVT score","Stratify pretest probability → test pathway"],
+      ["Compression ultrasound","Confirmatory test of choice (non-compressible vein)"],
+      ["D-dimer","Useful to exclude only in LOW pretest probability"],
+      ["Assess for PE","Symptoms/vitals → CTPA if any concern"],
+      ["Cancer / thrombophilia context","Provoked vs unprovoked → anticoagulation duration"]
+    ],
+    mgmt:[
+      "Anticoagulation once confirmed (DOAC or LMWH; in active cancer per guideline preference)",
+      "If high pretest probability and imaging is delayed, consider empiric anticoagulation while awaiting US",
+      "Screen for PE and counsel return precautions; CTPA if symptomatic",
+      "Determine provoked vs unprovoked to set duration; address reversible risks",
+      "Compression/elevation for symptoms; reserve IVC filter for when anticoagulation is contraindicated"
+    ],
+    pearl:"Mr. Virchow's triad tells you who clots. A swollen leg is a Wells-score-then-ultrasound problem — and the leg is never the whole story, because the embolus that kills is in the lung."
+  },
+  {
+    id:"whipple", name:"Mr. Whipple · Hypoglycemia", system:"Endocrine", acuity:2,
+    tags:["Hypoglycemia","AMS","Med safety"],
+    hook:"<b>Whipple → Whipple's triad</b> (low glucose + consistent symptoms + relief on correction) — the rule for calling true hypoglycemia.",
+    summary:"77M with diabetic kidney disease, found diaphoretic and confused on the floor with a fingerstick of 38. Work up the low glucose and stop it recurring.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (now)",val:"HR 104. BP 138/82. Afebrile. SpO₂ 97%. Diaphoretic, tremulous, confused — <b>improves after D50</b>."},
+      {ic:"💧",lbl:"I/O · weight",val:"Poor PO intake ×1 day."},
+      {ic:"🌙",lbl:"Overnight",val:"Found confused; fingerstick 38; given D50 with symptom resolution, then <span class='flag'>drifted low again (recurrent).</span>"},
+      {ic:"💊",lbl:"MAR",val:"<span class='flag'>Long-acting insulin (full home dose) + scheduled glipizide</span>; reduced intake; renally-cleared meds."},
+      {ic:"🧪",lbl:"Labs",val:"Glucose <b>38 → 120 → 54</b> (recurrent). <b>Cr 2.4 (CKD)</b>. K 4.4. C-peptide/insulin not sent."},
+      {ic:"🩻",lbl:"Imaging",val:"n/a."},
+      {ic:"📋",lbl:"Plan check",val:"Insulin/sulfonylurea not adjusted; recurrence not anticipated; cause not pinned."}
+    ],
+    question:"Recurrent symptomatic hypoglycemia in a CKD patient on insulin AND a sulfonylurea. One-liner, then work it up — why does it keep recurring, and what changes management?",
+    model:{
+      oneliner:"77M with diabetic CKD on both basal insulin and a sulfonylurea, with reduced oral intake and renal impairment, presenting with recurrent symptomatic hypoglycemia (glucose 38, Whipple's triad satisfied) that relapses after dextrose.",
+      paras:[
+        "Whipple's triad is met (low measured glucose, neuroglycopenic/adrenergic symptoms, resolution with correction), so this is real hypoglycemia, not an artifact. The mechanism is iatrogenic and predictable: a <b>full insulin dose plus a long-acting sulfonylurea</b> on a background of <b>renal impairment</b> (which prolongs clearance of both insulin and the sulfonylurea) and <b>poor intake</b>. That combination is why it <b>recurs after D50</b> — a single ampule is transient against a long-acting secretagogue.",
+        "Change management to match the mechanism: correct with dextrose, then start a <b>continuous dextrose infusion (D10)</b> and monitor glucose frequently, because the sulfonylurea will keep stimulating insulin for many hours. For <b>refractory or sulfonylurea-induced hypoglycemia, octreotide</b> suppresses that insulin release and is the targeted antidote. <b>Hold the insulin and sulfonylurea</b> and renally re-dose the regimen.",
+        "Keep the broader differential in mind so you don't miss a second driver: <b>sepsis</b>, <b>adrenal insufficiency</b>, <b>alcohol</b>, and <b>liver failure</b>; and if it persists off all drugs, endogenous hyperinsulinism (<b>insulinoma</b>) or surreptitious/medication-error insulin — a paired <b>insulin/C-peptide/sulfonylurea screen</b> drawn during hypoglycemia sorts these out."
+      ]
+    },
+    dx:"Recurrent iatrogenic (insulin + sulfonylurea) hypoglycemia in renal impairment",
+    ddx:[
+      ["Iatrogenic","Insulin + sulfonylurea, renally retained, with poor intake (leading)"],
+      ["Endocrine","Adrenal insufficiency, hypopituitarism"],
+      ["Systemic","Sepsis, alcohol, hepatic/renal failure"],
+      ["Endogenous","Insulinoma; surreptitious insulin/sulfonylurea (med error)"]
+    ],
+    confounders:[
+      ["Recurrence trap","One D50 amp won't hold against a long-acting sulfonylurea/insulin — expect relapse; start D10 + frequent checks"],
+      ["Targeted antidote","Sulfonylurea-induced hypoglycemia → octreotide, not just repeated dextrose"],
+      ["Mimic","Hypoglycemia masquerades as stroke/delirium/seizure — always check a fingerstick in AMS"]
+    ],
+    workup:[
+      ["Confirm Whipple's triad","Measured low glucose + symptoms + relief on correction"],
+      ["Frequent glucose monitoring","Recurrence is the rule with secretagogues + renal failure"],
+      ["Insulin / C-peptide / sulfonylurea screen","Drawn during hypoglycemia if the cause is unclear"],
+      ["Renal function + med review","CKD prolongs insulin/sulfonylurea action — re-dose"],
+      ["Cortisol","If adrenal insufficiency is suspected"]
+    ],
+    mgmt:[
+      "Correct with IV dextrose; start a continuous D10 infusion with frequent glucose checks",
+      "HOLD insulin and the sulfonylurea; renally re-dose the diabetes regimen",
+      "Octreotide for sulfonylurea-induced / refractory hypoglycemia",
+      "Treat any precipitant (sepsis, adrenal insufficiency, alcohol)",
+      "Ensure carbohydrate intake; observe well beyond apparent recovery (delayed recurrence)"
+    ],
+    pearl:"Mr. Whipple's triad confirms it's real. Sulfonylurea-plus-insulin hypoglycemia in renal failure recurs — one dextrose amp is a band-aid; think continuous dextrose, octreotide, and a fingerstick in every confused patient."
+  },
+  {
+    id:"addison", name:"Ms. Addison · Adrenal crisis", system:"Endocrine / Critical care", acuity:3,
+    tags:["Adrenal crisis","Refractory shock"],
+    hook:"<b>Addison → Addisonian crisis</b> — hyponatremia + hyperkalemia + hypotension that won't respond to fluids and pressors until you give steroids.",
+    summary:"52F on chronic prednisone for autoimmune disease, stopped abruptly when she got a GI bug, now with refractory hypotension. Work up the shock that isn't responding.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (now)",val:"HR 118. BP <b>80/48 (poorly fluid-responsive)</b>. Tmax 38.0. SpO₂ 97%. Weak, nauseated, diffuse abdominal pain."},
+      {ic:"💧",lbl:"I/O · weight",val:"Vomiting/diarrhea ×2 days, net negative."},
+      {ic:"🌙",lbl:"Overnight",val:"<span class='flag'>Stopped prednisone when she couldn't keep pills down.</span> Progressive weakness, dizziness, hypotension despite 2 L NS."},
+      {ic:"💊",lbl:"MAR",val:"Home prednisone (recently stopped). Antiemetic. <span class='flag'>No stress-dose steroids given.</span>"},
+      {ic:"🧪",lbl:"Labs",val:"<b>Na 128. K 5.6. Glucose 58.</b> Cr 1.6. Mild eosinophilia. Lactate 2.4. Cortisol pending."},
+      {ic:"🩻",lbl:"Imaging",val:"CXR clear; no clear infection source."},
+      {ic:"📋",lbl:"Plan check",val:"Treated as 'sepsis/dehydration'; steroids not given; cortisol/ACTH not drawn."}
+    ],
+    question:"Refractory hypotension with hyponatremia, hyperkalemia, and hypoglycemia after abruptly stopping chronic steroids. One-liner, then act — why won't fluids and pressors fix this?",
+    model:{
+      oneliner:"52F on chronic glucocorticoids who abruptly stopped them during a GI illness, now with fluid-refractory hypotension, hyponatremia, hyperkalemia, and hypoglycemia — adrenal (Addisonian) crisis from secondary adrenal insufficiency unmasked by physiologic stress.",
+      paras:[
+        "The electrolyte signature plus the history is the giveaway: <b>hyponatremia + hyperkalemia + hypoglycemia + fluid-refractory hypotension</b> in someone whose adrenal axis was suppressed by chronic steroids and then stressed by vomiting/diarrhea. The reason fluids and pressors aren't working is that <b>vascular tone is cortisol-dependent</b> — without glucocorticoid, the vasculature won't respond. The treatment that breaks the crisis is <b>empiric IV hydrocortisone (100 mg)</b>, given <b>immediately, before the cortisol result</b>.",
+        "Resuscitate in parallel: <b>IV fluids with dextrose</b> (for volume and the hypoglycemia), correct the hyperkalemia, and search for and treat the <b>precipitant</b> (here the GI illness/steroid withdrawal; also infection, which you can cover empirically). Draw a <b>random cortisol ± ACTH</b> before the first steroid dose if it doesn't delay treatment — but <b>never withhold hydrocortisone to obtain the test</b>.",
+        "The crucial confounder is that this <b>looks exactly like septic or hypovolemic shock</b> — and the anchoring error is to keep escalating fluids and norepinephrine while missing the steroid that would actually work. Conversely, infection commonly precipitates adrenal crisis, so the answer is usually 'steroids <b>and</b> a sepsis workup,' not one or the other."
+      ]
+    },
+    dx:"Adrenal (Addisonian) crisis from glucocorticoid withdrawal",
+    ddx:[
+      ["Endocrine","Adrenal crisis (leading) — steroid withdrawal + stress"],
+      ["Distributive","Septic shock — often the precipitant; cover empirically"],
+      ["Hypovolemic","GI losses — contributing, but won't fully explain refractoriness"],
+      ["Metabolic","Other causes of hyperkalemia/hyponatremia"]
+    ],
+    confounders:[
+      ["Anchoring trap","Treating as pure 'sepsis/dehydration' and escalating fluids/pressors while cortisol-dependent vasculature can't respond"],
+      ["Don't wait","Give empiric hydrocortisone BEFORE the cortisol result — the test must not delay treatment"],
+      ["Both / and","Infection frequently precipitates crisis — steroids AND a sepsis workup, not either/or"]
+    ],
+    workup:[
+      ["Random cortisol ± ACTH","Draw before the first steroid dose if it doesn't delay treatment"],
+      ["BMP + glucose","Na↓ K↑ glucose↓ pattern; correct hyperkalemia/hypoglycemia"],
+      ["Infection workup","Common precipitant — cultures, exam, empiric antibiotics if indicated"],
+      ["Cosyntropin (ACTH) stimulation","Later, once stable, to confirm adrenal insufficiency"],
+      ["Steroid history","Dose, duration, abrupt cessation → axis suppression"]
+    ],
+    mgmt:[
+      "IV hydrocortisone 100 mg NOW — do not wait for cortisol",
+      "Aggressive IV fluids WITH dextrose; correct hypoglycemia and hyperkalemia",
+      "Identify and treat the precipitant (GI illness, infection) — empiric antibiotics if sepsis possible",
+      "Continue stress-dose steroids; taper as the patient recovers",
+      "Education + emergency steroid plan/bracelet to prevent recurrence"
+    ],
+    pearl:"Ms. Addison's shock won't yield to fluids and pressors because the missing molecule is cortisol. Na low, K high, glucose low, pressure low in a steroid-dependent patient = give hydrocortisone first, ask the cortisol question second."
+  },
+  {
+    id:"osler", name:"Mr. Osler · Endocarditis", system:"ID / Cardiology", acuity:2,
+    tags:["Endocarditis","Fever","Duke criteria"],
+    hook:"<b>Osler → Osler nodes</b> (painful, on the digits) — plus Janeway lesions, Roth spots, and the Duke criteria for endocarditis.",
+    summary:"58M with a prosthetic aortic valve, weeks of low-grade fevers, night sweats, and malaise, now with a new regurgitant murmur and splinter hemorrhages. Work up possible endocarditis.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (now)",val:"Tmax 38.3. HR 96. BP 124/70. SpO₂ 97%. <b>New diastolic murmur</b>; splinter hemorrhages; tender finger nodules (Osler nodes); conjunctival hemorrhages."},
+      {ic:"💧",lbl:"I/O · weight",val:"Even."},
+      {ic:"🌙",lbl:"Overnight",val:"3 weeks of fevers/night sweats/weight loss/fatigue. Recent dental work. <b>Prosthetic aortic valve 4 years ago.</b>"},
+      {ic:"💊",lbl:"MAR",val:"<span class='flag'>No antibiotics yet (cultures pending).</span> Home meds."},
+      {ic:"🧪",lbl:"Labs",val:"WBC 13. Anemia. ESR/CRP elevated. Microscopic hematuria. <b>3 sets blood cultures drawn (pending).</b>"},
+      {ic:"🩻",lbl:"Imaging",val:"<span class='flag'>No echo yet.</span> CXR clear."},
+      {ic:"📋",lbl:"Plan check",val:"Echo not ordered; Duke criteria not applied; ID/cards not consulted."}
+    ],
+    question:"Prolonged fever, a prosthetic valve, a new murmur, and embolic skin findings. One-liner, then work it up — what framework do you use and what's the highest-yield imaging?",
+    model:{
+      oneliner:"58M with a prosthetic aortic valve and a subacute febrile illness now showing a new regurgitant murmur and peripheral embolic/immunologic stigmata (Osler nodes, splinter and conjunctival hemorrhages) — a high clinical suspicion for infective (prosthetic-valve) endocarditis.",
+      paras:[
+        "Frame it with the <b>modified Duke criteria</b>, which combine major criteria (persistently positive blood cultures with typical organisms; echo evidence of endocardial involvement; new valvular regurgitation) and minor criteria (predisposing valve/IVDU, fever, vascular phenomena like Janeway lesions and emboli, immunologic phenomena like Osler nodes and Roth spots, suggestive cultures). The cornerstone of diagnosis is <b>at least three sets of blood cultures from separate sites before antibiotics</b>.",
+        "The highest-yield imaging is <b>echocardiography</b>: a transthoracic echo first, but with a <b>prosthetic valve</b> and high pretest probability you proceed to <b>transesophageal echo (TEE)</b>, which is far more sensitive for vegetations, abscess, and prosthetic involvement. Hunt actively for complications — <b>perivalvular abscess</b>, heart block on ECG, heart failure from acute regurgitation, and septic emboli (CNS, spleen, kidneys).",
+        "Don't anchor prematurely: a prolonged fever with a murmur has mimics (other infections, <b>atrial myxoma</b>, marantic/Libman-Sacks <b>non-bacterial thrombotic endocarditis</b>, vasculitis, lymphoma), and IE itself can be <b>culture-negative</b> (fastidious organisms, prior antibiotics). Empiric antibiotics start after cultures in the unstable or strongly suspected patient, then are tailored — and <b>surgery</b> is considered for heart failure, abscess, prosthetic dehiscence, or large/embolizing vegetations, with early ID and cardiac-surgery involvement."
+      ]
+    },
+    dx:"Infective endocarditis (prosthetic valve) — apply modified Duke criteria",
+    ddx:[
+      ["Infective","Infective endocarditis (leading); culture-negative IE"],
+      ["Non-infective","Marantic / Libman-Sacks (non-bacterial thrombotic) endocarditis"],
+      ["Cardiac mass","Atrial myxoma"],
+      ["Systemic","Vasculitis, occult abscess, lymphoma/malignancy"]
+    ],
+    confounders:[
+      ["Framework","Modified Duke criteria — and ≥3 blood-culture sets BEFORE antibiotics"],
+      ["Imaging","Prosthetic valve + high suspicion → go to TEE; TTE can miss vegetations/abscess"],
+      ["Can't-miss complications","Perivalvular abscess (heart block), acute regurgitation/HF, septic emboli — these drive surgery"]
+    ],
+    workup:[
+      ["≥3 blood cultures, separate sites","Before antibiotics — the diagnostic cornerstone"],
+      ["Echocardiography (TTE→TEE)","Vegetations, abscess, regurgitation; TEE for prosthetic valves"],
+      ["Modified Duke criteria","Integrate clinical + micro + echo"],
+      ["ECG","New conduction block → perivalvular abscess"],
+      ["Imaging for emboli","CNS/spleen/kidney if symptomatic; urinalysis (hematuria)"]
+    ],
+    mgmt:[
+      "Obtain ≥3 culture sets, then empiric antibiotics covering likely organisms; tailor to sensitivities (prolonged IV course)",
+      "TEE to confirm and assess for complications; serial exams for new murmur/HF",
+      "Early ID and cardiac-surgery consultation",
+      "Surgery for heart failure, perivalvular abscess, prosthetic dehiscence, or large/embolizing vegetations",
+      "Monitor for and manage embolic complications; dental/source evaluation"
+    ],
+    pearl:"Mr. Osler's nodes are a minor Duke criterion — but the diagnosis lives in three blood-culture sets and an echo. With a prosthetic valve, go to TEE, and hunt the abscess and the embolus that turn medical IE into a surgical one."
+  },
+  {
+    id:"light", name:"Mr. Light · Pleural effusion", system:"Pulmonary", acuity:1,
+    tags:["Pleural effusion","Light's criteria"],
+    hook:"<b>Light → Light's criteria</b> — the protein and LDH ratios that split an exudate from a transudate.",
+    summary:"70M with a new moderate pleural effusion found on a routine CXR, stable and only mildly short of breath on exertion. Work up the effusion methodically.",
+    chart:[
+      {ic:"📈",lbl:"Vitals (now)",val:"HR 84. BP 128/76. Afebrile. SpO₂ 95% RA. RR 18. <b>Decreased breath sounds + dullness at the right base.</b>"},
+      {ic:"💧",lbl:"I/O · weight",val:"Even; no orthopnea or peripheral edema (argues against CHF — but verify)."},
+      {ic:"🌙",lbl:"Overnight",val:"Mild exertional dyspnea over 2 weeks, no fever, no pleuritic pain, mild dry cough. <b>Remote asbestos exposure; 30-pack-year smoker.</b>"},
+      {ic:"💊",lbl:"MAR",val:"Routine home meds. No diuretic."},
+      {ic:"🧪",lbl:"Labs",val:"CBC normal. BMP normal. Albumin 3.8. Serum LDH 180."},
+      {ic:"🩻",lbl:"Imaging",val:"CXR: moderate right pleural effusion, blunted costophrenic angle. No prior."},
+      {ic:"📋",lbl:"Plan check",val:"No thoracentesis done; fluid not characterized; cause unknown."}
+    ],
+    question:"A new unilateral pleural effusion in a stable smoker with asbestos exposure. One-liner, then work it up — what's the single most informative next step and how do you interpret it?",
+    model:{
+      oneliner:"70M with a smoking and asbestos history presenting with a new, moderate, unilateral right pleural effusion and exertional dyspnea but no infective or cardiac features — an undiagnosed effusion requiring diagnostic thoracentesis to separate transudate from exudate.",
+      paras:[
+        "For a new effusion of unclear cause, the single most informative step is a <b>diagnostic thoracentesis</b> with fluid analysis, interpreted by <b>Light's criteria</b>. The effusion is an <b>exudate</b> if any one holds: pleural/serum protein >0.5, pleural/serum LDH >0.6, or pleural LDH >2/3 the upper limit of normal serum LDH. Exudate vs transudate fundamentally redirects the workup.",
+        "The two categories point to different disease: <b>transudates</b> (heart failure, cirrhosis, nephrotic syndrome) arise from altered hydrostatic/oncotic pressure and are managed by treating the systemic cause; <b>exudates</b> (malignancy, parapneumonic/empyema, TB, PE) reflect local pleural pathology and need further studies — cytology, cell count and differential, glucose and pH (low → complicated parapneumonic/empyema needing drainage), adenosine deaminase (TB), and microbiology.",
+        "Let his risk factors sharpen the differential without anchoring: a <b>unilateral exudate in a smoker with asbestos exposure</b> raises <b>malignancy and mesothelioma</b>, so send cytology and keep a low threshold for cross-sectional imaging (CT) and pleural biopsy if cytology is non-diagnostic. But remember a <b>PE can cause an exudative effusion</b>, and don't miss an infected (empyema) collection that demands a chest tube."
+      ]
+    },
+    dx:"New unilateral pleural effusion — characterize by thoracentesis / Light's criteria",
+    ddx:[
+      ["Exudate","Malignancy/mesothelioma (smoker+asbestos), parapneumonic/empyema, TB, PE"],
+      ["Transudate","Heart failure, cirrhosis, nephrotic syndrome"],
+      ["Special","Chylothorax, hemothorax, rheumatologic"],
+      ["Don't miss","PE-associated effusion; empyema needing drainage"]
+    ],
+    confounders:[
+      ["Framework","Light's criteria split exudate vs transudate — only ONE criterion needed to call it exudate"],
+      ["Risk-driven","Unilateral exudate + smoking/asbestos → malignancy/mesothelioma; send cytology, image"],
+      ["Can't-miss","Empyema (low pH/glucose) needs a chest tube; a PE can cause an exudate"]
+    ],
+    workup:[
+      ["Diagnostic thoracentesis","The pivotal step — fluid for Light's criteria"],
+      ["Pleural protein/LDH + paired serum","Apply Light's criteria (exudate vs transudate)"],
+      ["Fluid cytology, cell count, glucose, pH","Malignancy, infection, complicated parapneumonic"],
+      ["ADA, cultures, AFB","TB and infective causes when exudative"],
+      ["CT chest","Characterize pleura/parenchyma; guide biopsy if malignancy suspected"]
+    ],
+    mgmt:[
+      "Diagnostic (± therapeutic) thoracentesis; drain symptomatic fluid to relieve dyspnea",
+      "Transudate → treat the systemic cause (heart/liver/kidney)",
+      "Exudate → directed workup: cytology/CT for malignancy, chest tube for empyema, anti-TB if indicated",
+      "Pulmonary referral for non-diagnostic exudates (pleural biopsy/thoracoscopy)",
+      "Address smoking; document asbestos exposure for mesothelioma surveillance"
+    ],
+    pearl:"Mr. Light tells you the first move with any new effusion: tap it and apply Light's criteria. Exudate vs transudate forks the entire workup — and a unilateral exudate in a smoker with asbestos is malignancy until cytology says otherwise."
+  }
+];
+
+/* ---------------- STATE ---------------- */
+const LS="onservice_v1";
+let state = load();
+function load(){ try{return JSON.parse(localStorage.getItem(LS))||{}}catch(e){return{}} }
+function save(){ try{localStorage.setItem(LS,JSON.stringify(state))}catch(e){} }
+state.readLessons = state.readLessons || {};
+state.caseGrades = state.caseGrades || {};
+let tab = "learn";
+
+/* ---------------- HELPERS ---------------- */
+const $ = sel => document.querySelector(sel);
+const view = $("#view");
+function esc(s){return s}
+function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),1700)}
+function lessonsDone(){return Object.values(state.readLessons).filter(Boolean).length}
+function updProg(){$("#progNum").textContent=lessonsDone()+"/"+LESSONS.length}
+
+/* ---------------- RENDER: LESSONS LIST ---------------- */
+function renderLearn(){
+  let h = `<div class="card">
+    <div class="eyebrow">30-Day Intern Curriculum</div>
+    <h2 class="sec">On Service · Foundations</h2>
+    <p class="lede">Three foundation skills that make every other day of intern year easier. Read them in order; the worked examples carry through. Then practice on the Workups tab.</p>
+  </div>`;
+  LESSONS.forEach(l=>{
+    const done = !!state.readLessons[l.id];
+    h += `<div class="card lcard" data-lesson="${l.id}">
+      <div class="day">📅 ${l.day}</div>
+      <h3>${l.title}</h3>
+      <p>${l.blurb}</p>
+      <div class="meta">
+        <span class="pill ${done?'done':''}">${done?'✓ Read':'Not read'}</span>
+        <span>${l.read}</span>
+      </div>
+      <div class="chev">›</div>
+    </div>`;
+  });
+  view.className="fade";view.innerHTML=h;
+  view.querySelectorAll("[data-lesson]").forEach(el=>el.onclick=()=>openLesson(el.dataset.lesson));
+}
+
+function openLesson(id){
+  const l = LESSONS.find(x=>x.id===id);
+  const done = !!state.readLessons[id];
+  let h = `<div class="backbar">
+      <button class="btn" id="back">‹ Lessons</button>
+      <button class="btn ${done?'':'primary'}" id="mark">${done?'✓ Marked read':'Mark as read'}</button>
+    </div>
+    <div class="card article">
+      <div class="day" style="color:var(--blue);font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase">${l.day} · ${l.read}</div>
+      <h1>${l.title}</h1>
+      ${l.body}
+    </div>`;
+  // next lesson nav
+  const idx = LESSONS.findIndex(x=>x.id===id);
+  if(idx<LESSONS.length-1){
+    h += `<button class="btn primary full" id="next">Next · ${LESSONS[idx+1].title} ›</button>`;
+  } else {
+    h += `<button class="btn primary full" id="toCases">Practice the workups ›</button>`;
+  }
+  view.className="fade";view.innerHTML=h;window.scrollTo(0,0);
+  $("#back").onclick=renderLearn;
+  $("#mark").onclick=()=>{state.readLessons[id]=!state.readLessons[id];save();updProg();openLesson(id);if(state.readLessons[id])toast("Marked as read ✓")};
+  const nx=$("#next");if(nx)nx.onclick=()=>openLesson(LESSONS[idx+1].id);
+  const tc=$("#toCases");if(tc)tc.onclick=()=>{tab="cases";setActiveNav();renderCases()};
+}
+
+/* ---------------- RENDER: CASES LIST ---------------- */
+function acuityLabel(a){return a===1?"Stable":a===2?"Watcher":"Sick"}
+function acuityEmoji(a){return a===1?"🟢":a===2?"🟡":"🔴"}
+function renderCases(){
+  if(state.caseFilter==null)state.caseFilter=0;
+  const f=state.caseFilter;
+  const counts={0:CASES.length,1:0,2:0,3:0};
+  CASES.forEach(c=>counts[c.acuity]++);
+  const list=CASES.filter(c=>f===0||c.acuity===f);
+  const graded=Object.keys(state.caseGrades).length;
+  let h=`<div class="card">
+    <div class="eyebrow">Practice · Workups</div>
+    <h2 class="sec">Build the one-liner, then the workup</h2>
+    <p class="lede">Each case is a 6 AM chart, organized the way Day 01 taught you to read it. Form your one-liner and diagnostic plan, then check it against the model. ${graded?`<b style="color:var(--teal)">${graded}/${CASES.length} attempted.</b> `:''}<span style="color:var(--violet)">🧠 = the patient's name is a memory hook.</span></p>
+  </div>
+  <div class="filterbar">
+    ${[[0,"All"],[1,"Stable"],[2,"Watcher"],[3,"Sick"]].map(a=>`<button class="fb ${f===a[0]?'on':''}" data-ac="${a[0]}">${a[0]===0?'◎':acuityEmoji(a[0])} ${a[1]}<small>${counts[a[0]]}</small></button>`).join("")}
+  </div>`;
+  if(!list.length)h+=`<div class="card"><p class="lede">No cases at this acuity level.</p></div>`;
+  list.forEach(c=>{
+    const g = state.caseGrades[c.id];
+    h += `<div class="card scard" data-case="${c.id}">
+      <div class="day" style="color:var(--violet);font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase">${c.system}</div>
+      <h3 style="margin:8px 0 4px;font-size:17px;font-weight:820">${c.name}</h3>
+      <p style="margin:0;color:var(--muted);font-size:13px;line-height:1.5">${c.summary}</p>
+      <div class="tags">
+        <span class="tag acu${c.acuity}">${acuityEmoji(c.acuity)} ${acuityLabel(c.acuity)}</span>
+        ${c.hook?`<span class="hookchip">🧠 Name hook</span>`:''}
+        ${c.tags.map(t=>`<span class="tag diff">${t}</span>`).join("")}
+        ${g?`<span class="tag" style="color:var(--green);border-color:#1f5e44">✓ ${g}</span>`:''}
+      </div>
+      <div class="demo">
+        <span>Acuity</span>
+        <span class="difficulty">${[1,2,3].map(n=>`<i class="${n<=c.acuity?'on':''}"></i>`).join("")}</span>
+        <div class="chev" style="position:static;margin-left:auto">›</div>
+      </div>
+    </div>`;
+  });
+  view.className="fade";view.innerHTML=h;window.scrollTo(0,0);
+  view.querySelectorAll(".fb").forEach(b=>b.onclick=()=>{state.caseFilter=+b.dataset.ac;save();renderCases();});
+  view.querySelectorAll("[data-case]").forEach(el=>el.onclick=()=>openCase(el.dataset.case));
+}
+
+/* ---------------- RENDER: CASE DETAIL ---------------- */
+function openCase(id){
+  const c = CASES.find(x=>x.id===id);
+  let chart = c.chart.map(r=>`<div class="chartrow">
+      <div class="ic">${r.ic}</div>
+      <div><div class="lbl">${r.lbl}</div><div class="val">${r.val}</div></div>
+    </div>`).join("");
+
+  let h = `<div class="backbar">
+      <button class="btn" id="back">‹ Workups</button>
+      <span class="pill">${acuityLabel(c.acuity)} · ${c.system}</span>
+    </div>
+    <div class="card">
+      <h2 class="sec" style="font-size:18px">${c.name}</h2>
+      <p class="lede" style="margin-top:6px">${c.summary}</p>
+    </div>
+    ${c.hook?`<div class="hook"><div class="hi">🧠</div><div><div class="ht">Memory hook — the name is the clue</div><div class="hb">${c.hook}</div></div></div>`:''}
+    <div class="card">
+      <div class="eyebrow">The 6 AM chart</div>
+      ${chart}
+    </div>
+    <div class="card" style="border-color:#3a3263">
+      <div class="eyebrow" style="color:var(--violet)">Your move</div>
+      <p style="font-size:14px;line-height:1.55;color:#e6ecf8;margin:8px 0 0">${c.question}</p>
+    </div>
+    <div class="reveal" id="reveal">Think it through, then tap to reveal the <b>model one-liner &amp; workup</b></div>
+    <div id="modelWrap"></div>`;
+  view.className="fade";view.innerHTML=h;window.scrollTo(0,0);
+  $("#back").onclick=renderCases;
+  $("#reveal").onclick=()=>showModel(c);
+}
+
+function showModel(c){
+  const rv=$("#reveal");rv.style.display="none";
+  const ddx = c.ddx.map(d=>`<li><span class="k">${d[0]}</span><span>${d[1]}</span></li>`).join("");
+  const cf = (c.confounders||[]).map(d=>`<li><span class="k">${d[0]}</span><span>${d[1]}</span></li>`).join("");
+  const wk = c.workup.map(d=>`<li><span class="k">${d[0]}</span><span>${d[1]}</span></li>`).join("");
+  const mg = c.mgmt.map(m=>`<li><span class="k">→</span><span>${m}</span></li>`).join("");
+  const grade = state.caseGrades[c.id];
+  let h = `<div class="answer">
+      <div class="ttl">✓ Model one-liner</div>
+      <p class="oneliner">${c.model.oneliner}</p>
+      ${c.model.paras.map(p=>`<p>${p}</p>`).join("")}
+    </div>
+    <div class="card">
+      <div class="eyebrow" style="color:var(--amber)">Differential — frame it the way you'll work it up</div>
+      <div style="font-size:12.5px;color:var(--muted);margin:4px 0 6px">Working dx: <b style="color:#fff">${c.dx}</b></div>
+      <ul class="wlist ddx">${ddx}</ul>
+    </div>
+    ${c.confounders?`<div class="card" style="border-color:#6b2a36;background:#1a0f16">
+      <div class="eyebrow" style="color:var(--rose)">⚠ Don't anchor — confounders &amp; can't-miss</div>
+      <div style="font-size:12px;color:var(--muted);margin:4px 0 6px">The diagnoses that get anchored away — and the lethal mimics worth one deliberate thought before you commit.</div>
+      <ul class="wlist cf">${cf}</ul>
+    </div>`:''}
+    <div class="card">
+      <div class="eyebrow">Targeted workup</div>
+      <ul class="wlist">${wk}</ul>
+    </div>
+    <div class="card">
+      <div class="eyebrow" style="color:var(--green)">Initial management</div>
+      <ul class="wlist">${mg}</ul>
+    </div>
+    <div class="callout" style="border-color:#2a4a63;background:#0c1a2a">
+      <div class="ttl" style="color:var(--teal)">Pearl</div>
+      <p style="margin:0">${c.pearl}</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow">How close was your read?</div>
+      <div class="selfgrade">
+        <div class="sg miss ${grade==='Missed it'?'on':''}" data-g="Missed it">Missed it</div>
+        <div class="sg partial ${grade==='Partly'?'on':''}" data-g="Partly">Partly</div>
+        <div class="sg got ${grade==='Nailed it'?'on':''}" data-g="Nailed it">Nailed it</div>
+      </div>
+    </div>
+    <button class="btn primary full" id="nextCase">Next workup ›</button>`;
+  $("#modelWrap").innerHTML=h;
+  $("#modelWrap").scrollIntoView({behavior:"smooth",block:"start"});
+  $("#modelWrap").querySelectorAll(".sg").forEach(el=>el.onclick=()=>{
+    state.caseGrades[c.id]=el.dataset.g;save();
+    $("#modelWrap").querySelectorAll(".sg").forEach(x=>x.classList.remove("on"));
+    el.classList.add("on");toast("Logged: "+el.dataset.g);
+  });
+  $("#nextCase").onclick=()=>{
+    const idx=CASES.findIndex(x=>x.id===c.id);
+    const nxt=CASES[(idx+1)%CASES.length];openCase(nxt.id);
+  };
+}
+
+/* ---------------- RENDER: TOOLKIT ---------------- */
+const TOOLS_CHECK = [
+  "Vitals — last 24 h trend, not the latest reading",
+  "I/O & weights — across days; fluid status before exam",
+  "Overnight events + free-text nursing comments",
+  "MAR — what was actually given (refused / late / PRN)",
+  "New labs & imaging — trended; read the impression line",
+  "Plan check — close yesterday's open loops",
+  "See the patient — 30 seconds at bedside"
+];
+const TPL_ONELINER = `[Name] is a [age][sex] with [pertinent PMH], admitted [HD#] for [problem].
+[Current state in one clause]:
+  • improving / stable / worsening
+  • on [key therapy], [trajectory marker]
+Anticipated d/c [when] if [criteria].`;
+const TPL_PRESENT = `1. ID (5s)
+2. One-liner — current state (10s)
+3. Overnight events / "uneventful" (15s)
+4. Subjective + objective — skip normal/unchanged (15s)
+5. A&P BY PROBLEM — assess + concrete plan (30–40s)
+6. Disposition (5s)
+Three questions answered: one-liner? plan today? when discharge?`;
+const TPL_NOTE = `S: 1–2 sentences. How they feel, new complaints.
+O: vitals (smart phrase) · focused exam · labs WITH interpretation.
+A/P (by problem):
+  1. [Problem, HD#] — assessment (what changed). Plan: concrete.
+  2. [Problem] — ...
+  3. Disposition — criteria + pending items + who to page.
+Target: 175–300 words. Write for night float at 2 AM.`;
+
+function renderTools(){
+  let h = `<div class="card">
+    <div class="eyebrow">Toolkit · pocket cards</div>
+    <h2 class="sec">Run the structure, every time</h2>
+    <p class="lede">The seniors who present beautifully aren't smarter — they run the same scaffolding consistently. Copy these into your EMR smart phrases.</p>
+  </div>
+
+  <div class="card tk">
+    <h4>⏱️ The 7-minute pre-round checklist</h4>
+    ${TOOLS_CHECK.map((c,i)=>`<div class="checkline"><div class="m">${i+1}</div><div>${c}</div></div>`).join("")}
+  </div>
+
+  <div class="card tk">
+    <h4>🧾 One-liner template <button class="copybtn" data-copy="oneliner">Copy</button></h4>
+    <div class="mono" id="cp-oneliner">${TPL_ONELINER}</div>
+  </div>
+
+  <div class="card tk">
+    <h4>🎤 90-second presentation <button class="copybtn" data-copy="present">Copy</button></h4>
+    <div class="mono" id="cp-present">${TPL_PRESENT}</div>
+  </div>
+
+  <div class="card tk">
+    <h4>📝 Daily progress note <button class="copybtn" data-copy="note">Copy</button></h4>
+    <div class="mono" id="cp-note">${TPL_NOTE}</div>
+  </div>
+
+  <div class="card tk">
+    <h4>🧠 Workup reflexes</h4>
+    <div class="checkline"><div class="m">!</div><div><b>New oliguria + rising Cr</b> → MAR for nephrotoxins · I/O for volume · K with an ECG</div></div>
+    <div class="checkline"><div class="m">!</div><div><b>Hyponatremia</b> → tonicity → volume → urine osm → urine Na · cap correction ≤6–8 mEq/24h</div></div>
+    <div class="checkline"><div class="m">!</div><div><b>New post-op AFib</b> → replete K/Mg · hunt trigger · stability decides rate vs cardiovert</div></div>
+    <div class="checkline"><div class="m">!</div><div><b>Sepsis deteriorating on antibiotics</b> → undrained source until proven otherwise · image + drain</div></div>
+    <div class="checkline"><div class="m">!</div><div><b>GI bleed</b> → resuscitate → risk-stratify → localize → scope · hold/reverse anticoag deliberately</div></div>
+    <div class="checkline"><div class="m">!</div><div><b>Hypoxia + clear chest/CXR</b> → vascular (PE) until proven · high pretest → image, don't D-dimer</div></div>
+  </div>
+
+  <button class="btn full" id="reset">Reset my progress</button>`;
+  view.className="fade";view.innerHTML=h;window.scrollTo(0,0);
+  view.querySelectorAll("[data-copy]").forEach(b=>b.onclick=()=>{
+    const txt=$("#cp-"+b.dataset.copy).textContent;
+    navigator.clipboard&&navigator.clipboard.writeText(txt).then(()=>toast("Copied ✓"),()=>toast("Select & copy manually"));
+  });
+  $("#reset").onclick=()=>{
+    if(confirm("Reset all read-lessons and case grades?")){state.readLessons={};state.caseGrades={};save();updProg();toast("Progress reset");renderTools();}
+  };
+}
+
+/* ---------------- TIPS & TRICKS ---------------- */
+const TIPS = [
+  {cat:"Speed & survival", icon:"⏱️", items:[
+    ["Carry paper.","A printed list with room for vitals, to-dos, and a checkbox column beats any app when your hands are full and the EMR is down. The checkbox is the point — you close loops, not leave them open."],
+    ["Touch each task once.","When you open a result, act on it then — order the follow-up, page the consult, write the note line — instead of re-reading the same value three times today."],
+    ["Batch by location.","Don't walk to the same unit five times. Group your orders, bedside visits, and pages by floor and do them in one pass."],
+    ["The two-minute rule.","If a task takes under two minutes — a one-line order, a quick call — do it now. Anything longer goes on the list so it doesn't live in your head."],
+    ["Do the discharges first.","Early discharge orders free up case management, pharmacy, PT, and a bed. A discharge written at 4 PM becomes a discharge tomorrow."],
+    ["Protect the overlap hour.","The time when both you and the day team are present is when questions and handoffs are cheap. Don't burn it on notes you could write later."]
+  ]},
+  {cat:"Rounds & presenting", icon:"🎤", items:[
+    ["Lead with the assessment.","If you get one sentence out before the attending interrupts, make it the one-liner — not the social history or the chronology of admission."],
+    ["Have a number for everything.","'The potassium is up' is weak. 'K 5.6 from 4.1 with peaked T's on the 6 AM ECG' is a presentation."],
+    ["Pre-write your plan.","Decide what you'd do before rounds. The attending may change it — but having a plan to change is the whole job. 'We'll see what the consultant says' is not a plan."],
+    ["Anticipate the one question.","For each patient, predict the thing the attending will ask — 'when's discharge?', 'did you check the trend?' — and have the answer loaded."],
+    ["'I don't know — I'll find out.'","Then actually find out and close the loop. It's the most trusted sentence in medicine when you follow through."]
+  ]},
+  {cat:"Notes & documentation", icon:"📝", items:[
+    ["Write after rounds, not during.","Write during rounds and you'll mishear the plan and miss the teaching. Listen during, document after."],
+    ["Open skeletons at pre-round.","Auto-pull vitals and labs into every note before rounds; fill the A&P after. You'll finish six notes in the time you used to finish three."],
+    ["Interpret, don't transcribe.","Every value should earn its place with a clause: '...trending down', '...consistent with improvement', '...new since yesterday.' A number alone is not information."],
+    ["Never blind copy-forward.","It propagates yesterday's errors into today's chart and is increasingly audited. Smart phrases make a fresh note nearly as fast."],
+    ["Document the conversation.","The family meeting, the consultant's verbal rec, the goals-of-care talk — if it mattered and it's not written, it didn't happen."]
+  ]},
+  {cat:"Pages & cross-cover", icon:"📟", items:[
+    ["Lay eyes on the unstable patient.","A page about a tachycardic, hypotensive, or desatting patient is a 'go see them' page — not a 'put in an order from the workroom' page."],
+    ["Ask the nurse what worries them.","'What are you most concerned about?' surfaces the real problem faster than the structured page text ever will."],
+    ["Vitals, then chart, then room.","For any cross-cover call, get the trend before you decide it's nothing. The single number is meaningless without the slope."],
+    ["Know the four floor killers.","Hypotension, hypoxia, altered mental status, and chest pain get you to the bedside, every time, no exceptions."],
+    ["Same fire twice → escalate.","A second call for the same problem means your first fix didn't work. Loop in your senior rather than re-trying the same thing."]
+  ]},
+  {cat:"Calling consults", icon:"📞", items:[
+    ["Bring a question, not just a patient.","'Renal, can you see this AKI?' is weak. 'Renal — stage 2 AKI not responding to volume, is there a role for biopsy?' gets a useful answer."],
+    ["Do your own workup first.","Consultants help most when the basic labs and imaging are already done. Don't outsource the urine studies you could have ordered."],
+    ["Use the 5 C's.","Contact info, Courtesy (introduce yourself), a Clinical one-liner, a specific Clinical question, and the urgency. In that order."],
+    ["Write down the rec and who gave it.","'Per Dr. X (cards), ok to anticoagulate' protects everyone and closes the loop. Verbal recs evaporate."]
+  ]},
+  {cat:"Communication", icon:"🤝", items:[
+    ["Befriend the nurses.","They will save you — and your patients — more times than any attending. Answer their pages, thank them, and ask their read on the patient."],
+    ["Update families before they ask.","A two-minute proactive update prevents a twenty-minute defensive one, and builds the trust you'll need on a bad day."],
+    ["Use teach-back.","Ask the patient to repeat the plan in their own words. It surfaces the misunderstanding before discharge, not after the bounce-back."],
+    ["Disagree up, support down.","Voice concerns to your senior privately. Never undercut a nurse, student, or colleague in front of the patient."]
+  ]},
+  {cat:"Procedures", icon:"🩹", items:[
+    ["See one, simulate one, then do one.","Practice on the model and verbalize every step out loud before you touch a patient. Competence is rehearsed, not improvised."],
+    ["Set up completely before you start.","Every piece of kit open and within reach. Procedures go wrong when you're reaching for the thing you forgot to open."],
+    ["Consent is a conversation about risk.","Know the real complication rate and the alternatives. Patients can tell when you don't, and it's their decision to make."],
+    ["Know your out.","Before any procedure, know what you'll do and who you'll call if it doesn't go to plan. Have that number before you start, not after."]
+  ]},
+  {cat:"Wellbeing & growth", icon:"❤️", items:[
+    ["Eat, pee, sit when you can.","You can't resuscitate anyone if you've crashed yourself. Five minutes of lunch is patient care, not a luxury."],
+    ["Keep a 'good catch' list.","Write down what you caught early — the creeping K, the missed PE risk. On hard days it's evidence you're becoming a doctor."],
+    ["One question per patient per day.","Look up one real thing about a patient you're carrying. That's how you actually learn medicine — not from didactics."],
+    ["Mistakes get disclosed, not hidden.","When you err: tell your senior, disclose per institutional process, document, and learn. The cover-up is always worse than the error."],
+    ["Be disciplined now; speed follows.","You will not be fast in July — nobody is. Speed is a consistent structure run a hundred times. It follows discipline; it never replaces it."]
+  ]}
+];
+
+function renderTips(){
+  let h = `<div class="card">
+    <div class="eyebrow">Field notes</div>
+    <h2 class="sec">Tips &amp; Tricks</h2>
+    <p class="lede">The unwritten curriculum — the habits that make intern year survivable and make you the intern the team trusts. Tap a section to open it.</p>
+  </div>`;
+  const flat=[]; TIPS.forEach(g=>g.items.forEach(it=>flat.push(it)));
+  const r=flat[Math.floor(Math.random()*flat.length)];
+  h += `<div class="card" id="randtip" style="cursor:pointer;border-color:#2a4a63;background:#0c1a2a">
+    <div class="eyebrow" style="color:var(--teal)">💡 Random tip · tap for another</div>
+    <p style="font-size:14px;line-height:1.6;margin:8px 0 0;color:#dcefe7"><b style="color:#fff">${r[0]}</b> ${r[1]}</p>
+  </div>`;
+  TIPS.forEach((g,i)=>{
+    h += `<div class="acc ${i===0?'open':''}">
+      <div class="acc-h"><div class="ai">${g.icon}</div><div class="at">${g.cat}</div><div class="ac">${g.items.length}</div><div class="arr">›</div></div>
+      <div class="acc-body">
+        ${g.items.map(it=>`<div class="tip"><div class="tn">▹</div><div class="tt"><b>${it[0]}</b> ${it[1]}</div></div>`).join("")}
+      </div>
+    </div>`;
+  });
+  view.className="fade";view.innerHTML=h;window.scrollTo(0,0);
+  view.querySelectorAll(".acc-h").forEach(hd=>hd.onclick=()=>hd.parentElement.classList.toggle("open"));
+  $("#randtip").onclick=()=>{
+    const n=flat[Math.floor(Math.random()*flat.length)];
+    $("#randtip").querySelector("p").innerHTML=`<b style="color:#fff">${n[0]}</b> ${n[1]}`;
+  };
+}
+
+/* ---------------- NAV ---------------- */
+function setActiveNav(){document.querySelectorAll(".nb").forEach(b=>b.classList.toggle("on",b.dataset.tab===tab));}
+document.querySelectorAll(".nb").forEach(b=>b.onclick=()=>{
+  tab=b.dataset.tab;setActiveNav();
+  if(tab==="learn")renderLearn();else if(tab==="cases")renderCases();else if(tab==="tips")renderTips();else renderTools();
+});
+
+/* ---------------- BOOT ---------------- */
+updProg();
+renderLearn();
+</script>
+</body>
+</html>
