@@ -209,6 +209,17 @@
   .tip .tt{font-size:14px;line-height:1.56;color:#d6e1f1}
   .tip .tt b{color:#fff}
 
+  /* ---------- emerging literature ---------- */
+  .litnote{border:1px solid #5e4a1f;background:#1a1408;border-radius:12px;padding:11px 13px;margin-bottom:13px;
+    font-size:12.5px;color:#e8dcc2;line-height:1.5}
+  .trial{border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin:9px 0 0;background:#0e1b30}
+  .trial .tname{font-weight:820;font-size:14px;color:#fff}
+  .trial .tyear{font-size:10px;font-weight:800;color:var(--teal);border:1px solid #1f5e44;border-radius:999px;
+    padding:2px 8px;margin-left:8px;white-space:nowrap}
+  .trial .trow{font-size:12.8px;line-height:1.5;margin-top:6px;color:#d6e1f1}
+  .trial .trow .lab{font-weight:800;color:var(--teal)}
+  .trial .trow.why .lab{color:var(--amber)}
+
   /* ---------- bottom nav ---------- */
   .bnav{position:fixed;left:0;right:0;bottom:0;z-index:40;
     background:linear-gradient(180deg,rgba(11,18,32,0),#0b1220 28%);padding:10px 14px calc(12px + env(safe-area-inset-bottom))}
@@ -259,6 +270,7 @@
   <div class="bnav-in">
     <button class="nb on" data-tab="learn"><span class="ni">📖</span>Lessons</button>
     <button class="nb" data-tab="cases"><span class="ni">🧩</span>Workups</button>
+    <button class="nb" data-tab="lit"><span class="ni">📚</span>Lit</button>
     <button class="nb" data-tab="tips"><span class="ni">💡</span>Tips</button>
     <button class="nb" data-tab="tools"><span class="ni">🧰</span>Toolkit</button>
   </div>
@@ -286,20 +298,19 @@ const LESSONS = [
 
 <h4><span class="dot"></span>The 7-minute framework</h4>
 <div class="step"><div class="n">1</div><div class="b"><b>Vitals trend.</b> Pull the last 24 h, not the latest reading. Better or worse? The patient whose HR crept 78→102 over six hours is the one to think about before rounds.</div></div>
-<div class="step"><div class="n">2</div><div class="b"><b>I/Os and weights.</b> They tell you about fluid status faster than your exam. +3 L over 24 h with 1.5 kg gain and crackles is trouble even if vitals are fine. Trend across days.</div></div>
-<div class="step"><div class="n">3</div><div class="b"><b>Overnight events &amp; nursing comments.</b> Open the free-text nursing note. "Up all night, anxious, refused 0300 vitals" beats the documented BP. If the nurse wrote "concerning," go see the patient now.</div></div>
-<div class="step"><div class="n">4</div><div class="b"><b>The MAR, not the order list.</b> Orders show intent; the MAR shows reality — refused meds, late meds, six PRN morphine doses overnight, the AM antihypertensive declined three days running.</div></div>
-<div class="step"><div class="n">5</div><div class="b"><b>New labs &amp; imaging, trended.</b> Open trend graphs for Cr, lytes, Hgb, troponin, lactate, WBC. For imaging, read the impression line — not the whole report.</div></div>
-<div class="step"><div class="n">6</div><div class="b"><b>Plan check.</b> What was outstanding yesterday? Did the consult come? Did the procedure happen? Was the family meeting scheduled? This loop-closure separates organized interns from chaotic ones.</div></div>
-<div class="step"><div class="n">7</div><div class="b"><b>See the patient.</b> Thirty seconds at bedside. The IVs, the lines, the affect, the half-eaten breakfast, the Foley that's still in despite being d/c'd in orders.</div></div>
+<div class="step"><div class="n">2</div><div class="b"><b>I/Os and weights.</b> More important for your heart failure patients, concern for nutrition, etc. They tell you about fluid-balance trends, but also rely on your physical exam: do they look dry or wet? Do they sound dry or wet? Trend across days.</div></div>
+<div class="step"><div class="n">3</div><div class="b"><b>Overnight events and consult notes.</b> Open the free-text nursing note — "up all night, anxious, refused 0300 vitals" gives you a good idea of how the patient is feeling, so go find out why. Read the consult notes that may have been signed late the previous day to find out what else your patient needs.</div></div>
+<div class="step"><div class="n">4</div><div class="b"><b>The MAR, not the order list.</b> Orders show intent; the MAR shows reality — refused meds, late meds, six PRN morphine doses overnight, the AM antihypertensive declined three days running. This matters most for your patients on anticoagulation, HF medications, and diabetes management — and it's great for figuring out an effective pain regimen.</div></div>
+<div class="step"><div class="n">5</div><div class="b"><b>New labs &amp; imaging, trended.</b> Review the labs — notice any trends? Trends tell a great story alongside the values. Look at the images and learn radiology as you go; nobody expects you to be an expert, but always look yourself — you may find something another person missed.</div></div>
+<div class="step"><div class="n">6</div><div class="b"><b>Plan check.</b> What was outstanding yesterday? Did the consult come? Did the procedure happen? This is the "disposition" line at the bottom of your note. Fill the gaps you're waiting on when you ask yourself "why is this patient still here?" Jot a few quick reminders on your charting sheet (patient list, notebook) so nothing slips. Medicine has a lot of moving pieces — keep a checklist and take some of it off your mental burden.</div></div>
+<div class="step"><div class="n">7</div><div class="b"><b>See the patient.</b> Build rapport — it always helps to talk about something the patient likes or a concern of theirs. Ask "how else can I help you?" That tells you what's important to them and surfaces concerns nobody's addressed yet. Meet them where they are. Explain what's going on in simple terms and why you're doing what you're doing; it helps them understand your framework and feel more assured about their stay.</div></div>
 
 <h4><span class="dot"></span>Order of operations</h4>
-<p>When you have 10 patients and 70 minutes:</p>
+<p>When you have 10 patients and 60 minutes:</p>
 <ul>
-<li><b>Sickest first</b> — the one most likely to crash before the one going home.</li>
+<li><b>Sickest first</b> — the one you don't have the best feeling about, where something on chart review sounds off. Let your senior know, then go see them; it gives the team a heads-up. If they look "bad," touch base with your senior about whether they need a higher level of care. Always feel free to reach out to anyone on the team — we're all here to take the best care of our patients.</li>
 <li><b>Discharges next</b> — they need orders early so case management, PT, and pharmacy can move.</li>
 <li><b>Then the rest in presentation order</b> — usually geographic, to match how you'll round.</li>
-<li><b>The well, stable patient last</b> — easiest to recover if you run short on time.</li>
 </ul>
 
 <h4><span class="dot"></span>Worked example — Mr. Patel, hospital day 2</h4>
@@ -311,44 +322,39 @@ const LESSONS = [
 <li><b>MAR:</b> Ceftriaxone + azithro on time. Took home metoprolol. Refused 0200 vitals.</li>
 <li><b>Labs:</b> WBC 11.2 (was 14.1). Cr 1.1 stable. K 3.9. Trop neg ×2.</li>
 <li><b>Plan check:</b> ID signed off. PT eval still pending.</li>
-<li><b>Bedside:</b> Looks better. Eating breakfast. Wife at bedside.</li>
+<li><b>Bedside:</b> Looks better. Eating breakfast. Walking more, less shortness of breath, some dull chest pain.</li>
 </ul>
 <div class="callout good"><div class="ttl">The one-liner it produces</div><p>"Day 2 CAP, clinically improving, weaned to 2L, off antipyretics, anticipated discharge tomorrow pending PT clearance."</p><p>You found something to act on (page PT at 0700), a question for the attending (follow-up CXR before discharge?), and a social piece (wife at bedside for discharge teaching today). Not a stack of data — a story with a plan and a question.</p></div>
 
 <h4><span class="dot"></span>Common mistakes</h4>
 <ul>
 <li><b>Reading every note.</b> Read your own A&amp;P from yesterday plus new notes. That's it.</li>
-<li><b>Chasing the latest lab.</b> Cr 1.4 is meaningless without where it was three days ago.</li>
-<li><b>Ignoring nursing comments.</b> They had 12 hours; you'll have 30 seconds.</li>
-<li><b>Trusting the order list, not the MAR.</b> The MAR is reality.</li>
-<li><b>Building the list in your head.</b> Memory fails after patient #4. Carry paper.</li>
+<li><b>Chasing the latest lab.</b> Values are important, but trends provide the context to the patient.</li>
+<li><b>Trusting the order list, not the MAR.</b> The MAR is reality. Don't note everything they didn't get — focus on the most pertinent ones that are obstacles to discharge.</li>
+<li><b>Building the list in your head.</b> Find ways to remember your patients; it will help you keep them organized.</li>
 </ul>
-
-<h4><span class="dot"></span>Calibration</h4>
-<p>Pre-rounding is the single most important skill of intern year. The fast intern isn't reading less carefully — they have a structure and run it consistently. You will not be the fast intern in July. Nobody is. Be the disciplined intern. The speed follows.</p>
 `
   },
   {
     id:"d02", day:"Day 02 · Foundations", read:"5 min read",
     title:"The 90-Second Presentation",
-    blurb:"Same clinical reality, a quarter of the time. A structure that works from the 6 AM Sunday table-round to grand rounds.",
+    blurb:"Something you can gradually build up to. Nobody expects this on day one — focus on a succinct, pertinent presentation plus the barriers to discharge and any concerns you have.",
     body:`
 <h4><span class="dot"></span>Why this matters</h4>
-<p>Your attending has 20–40 minutes and 8–15 patients — 90 to 120 seconds per known patient. Take four minutes on one and you've stolen time from another patient, from teaching, and from lunch.</p>
-<p>A well-structured presentation signals that you understand the patient. A poor one signals the opposite, even when your medical thinking is fine. Attendings can't read your mind — only what comes out of your mouth.</p>
+<p>A well-structured presentation signals that you understand the patient. Verbalize your medical decision-making; be confident with a decision backed by your thought process, but make sure to verbalize how you got there.</p>
 
 <h4><span class="dot"></span>The framework (known patient)</h4>
 <div class="step"><div class="n">1</div><div class="b"><b>ID</b> (5s) — "Mr. Patel is a 72-year-old man with HTN and prior MI, admitted day 2 for CAP."</div></div>
-<div class="step"><div class="n">2</div><div class="b"><b>One-liner</b> (10s) — the summary sentence that gets to the current state. "Clinically improving, weaning O₂, anticipated discharge tomorrow."</div></div>
-<div class="step"><div class="n">3</div><div class="b"><b>Overnight events</b> (15–20s) — significant events or "uneventful." Don't manufacture content.</div></div>
-<div class="step"><div class="n">4</div><div class="b"><b>Subjective + objective</b> (15s) — how they feel and how they look. Skip anything normal and unchanged.</div></div>
-<div class="step"><div class="n">5</div><div class="b"><b>Assessment &amp; plan, by problem</b> (30–40s) — the most important section. Each problem: brief assessment, concrete plan.</div></div>
-<div class="step"><div class="n">6</div><div class="b"><b>Disposition</b> (5s) — "Anticipated discharge tomorrow if off O₂ and tolerating PO."</div></div>
-<p>Total: 80–95 seconds. Practice it out loud the first few times. You will sound stiff. That's fine.</p>
+<div class="step"><div class="n">2</div><div class="b"><b>One-liner</b> — the summary sentence that gets to the current state. "Clinically improving, weaning O₂, feeling better, working with PT since he said he felt unstable on his feet, and felt he did well yesterday."</div></div>
+<div class="step"><div class="n">3</div><div class="b"><b>Overnight events</b> — significant events or "uneventful." Don't manufacture content.</div></div>
+<div class="step"><div class="n">4</div><div class="b"><b>Subjective + objective</b> — how they feel and how they look. Skip anything normal and unchanged.</div></div>
+<div class="step"><div class="n">5</div><div class="b"><b>Assessment &amp; plan, by problem</b> — the most important section. Each problem: brief assessment, concrete plan.</div></div>
+<div class="step"><div class="n">6</div><div class="b"><b>Disposition</b> — "Anticipated discharge tomorrow if off O₂ and tolerating PO. It was recommended he go home with home-health PT; anticipated discharge pending arrangement of home-health services."</div></div>
+<p><b>Total time:</b> doesn't matter — focus on the pertinent things that keep the patient in the hospital. Focus on what the team needs to know, since you're the one seeing the patient daily and you know the most about them. Advocate for your patient and bring up any concerns, no matter how small you think they are.</p>
 
 <h4><span class="dot"></span>New admission vs. known patient</h4>
-<p>A <b>new admission</b> gets 3–5 minutes: full HPI in narrative, relevant history, exam, data, and a full A&amp;P with your reasoning visible. The attending wants to hear you think.</p>
-<p>A <b>known patient</b> gets the 90-second format. Restating the full history every morning is the most common intern error and the one that frustrates attendings most. Reference history only when it changes today's plan.</p>
+<p>A <b>new admission</b> gets 3–5 minutes: full HPI in narrative, relevant history, exam, data, and a full A&amp;P with your reasoning visible. The attending wants to hear you think — talk about your differential and what made you rule things in and out.</p>
+<p>A <b>known patient</b> gets the abbreviated treatment once the attending knows you think about all aspects of the patient. Don't restate the full history; just give a brief one-liner so the attending remembers the patient. Reference history only when it changes today's plan.</p>
 
 <h4><span class="dot"></span>The three questions every attending asks</h4>
 <ul>
@@ -356,19 +362,15 @@ const LESSONS = [
 <li><b>What are we doing today?</b> Do you have a plan, and is it specific?</li>
 <li><b>When is discharge?</b> Do you have a disposition mindset, or just managing day-to-day?</li>
 </ul>
-<p>If you can't answer these three in one clear sentence each, your presentation isn't ready.</p>
 
 <h4><span class="dot"></span>Two ways, same patient</h4>
-<div class="callout good"><div class="ttl">Good — 90 seconds</div><p>"Mr. Patel, 72, HTN and prior MI, admitted day 2 for CAP. Clinically improving. Overnight uneventful, slept five hours, no PRNs. This morning feels better — Tmax 38.1 from 38.9, sats 96% on 2L weaned from 4L, WBC 11 from 14. Problem 1, CAP: day 3 of ceftriaxone/azithromycin, day-5 course planned — continue, wean to room air today, no repeat imaging unless he stalls. Problem 2, HTN: well controlled on home meds. Anticipated discharge tomorrow if off O₂, tolerating PO, PT clears — PT eval pending, I'll follow up at 7."</p></div>
-<div class="callout bad"><div class="ttl">Bad — 4 minutes</div><p>"So Mr. Patel is a 72-year-old gentleman with a past medical history of hypertension and hyperlipidemia, also a prior MI back in 2018 status post drug-eluting stent to the LAD — I think it was the proximal LAD — and he's also got BPH on tamsulosin and GERD on omeprazole. He was admitted, let me check, two days ago…"</p><p>Restates chart history, never reaches the assessment, buries the plan, respects nobody's time.</p></div>
+<div class="callout good"><div class="ttl">Abbreviated presentation for a known patient</div><p>"Mr. Patel, 72, HTN and prior MI, admitted day 2 for CAP. Clinically improving. Overnight uneventful, slept five hours, no PRNs. This morning feels better — Tmax 38.1 from 38.9, sats 96% on 2L weaned from 4L, WBC 11 from 14. Problem 1, CAP: day 3 of ceftriaxone/azithromycin, day-5 course planned — continue, wean to room air today, no repeat imaging unless he stalls. Problem 2, HTN: well controlled on home meds. Anticipated discharge tomorrow if off O₂, tolerating PO, PT clears — PT eval pending, I'll follow up at 7."</p></div>
 
 <h4><span class="dot"></span>Common mistakes</h4>
 <ul>
 <li><b>Starting with social history or the chronology of admission.</b> Start with the one-liner.</li>
-<li><b>Reading the chart instead of presenting your assessment.</b> If they wanted to read, they would.</li>
 <li><b>Listing labs without interpreting.</b> "WBC 11" is a number. "WBC 11 from 14, consistent with improvement" is an assessment.</li>
-<li><b>No plan ready.</b> "We'll see what the consultant says" is not a plan.</li>
-<li><b>Apologizing or hedging.</b> If genuinely uncertain, say so directly: "I'm not sure whether to anticoagulate — here's the trade-off."</li>
+<li><b>No plan ready.</b> Give your opinion; talk with your senior and fellow if you're unsure. Back it up with your medical decision-making — just verbalize it well, even if you're unsure about the plan. It's great to see you thinking about your patients.</li>
 </ul>
 `
   },
@@ -383,17 +385,15 @@ const LESSONS = [
 
 <h4><span class="dot"></span>What a note is actually for</h4>
 <ul>
-<li><b>Documenting your clinical thinking</b> for the next clinician. (Most important.)</li>
+<li><b>Documenting your clinical thinking</b> for the next clinician — and for yourself the next day. (Most important.)</li>
 <li><b>Protecting you medico-legally</b> by showing reasoning.</li>
-<li><b>Justifying billing.</b> Real, but not your problem yet.</li>
+<li><b>Justifying billing.</b> Real, but not your problem yet — though it's worth writing the correct diagnoses as specifically as possible to build good habits early, before you become a fellow or attending.</li>
 </ul>
-<p>It is not a textbook chapter, not a place to show everything you know, not a transcript of rounds. Write for the night float at 2 AM who needs to know what to do if the patient gets worse.</p>
 
 <h4><span class="dot"></span>The structure</h4>
 <div class="step"><div class="n">S</div><div class="b"><b>Subjective.</b> One or two sentences. How they feel, any new complaints. Skip the full ROS unless something new came up.</div></div>
 <div class="step"><div class="n">O</div><div class="b"><b>Objective.</b> Vitals via smart phrase. Focused exam, not head-to-toe. Relevant labs/imaging <b>with interpretation</b>, not just values.</div></div>
-<div class="step"><div class="n">A</div><div class="b"><b>Assessment &amp; plan.</b> Where you spend your time. By problem (not system, unless ICU). Each problem: brief assessment + concrete plan.</div></div>
-<p>200 words is often enough. 300 is plenty. 500 is too long.</p>
+<div class="step"><div class="n">A</div><div class="b"><b>Assessment &amp; plan.</b> Where you spend your time. By problem (not system, unless ICU). Each problem: brief assessment + concrete plan. Talk about why you think one diagnosis is more likely than another and why you ruled something else out.</div></div>
 
 <h4><span class="dot"></span>The smart-phrase strategy</h4>
 <p>The single biggest time-saver. Spend 30 minutes on day one; save 200 hours over the year. Set up at minimum:</p>
@@ -409,14 +409,14 @@ const LESSONS = [
 <ul>
 <li><b>Writing notes during rounds.</b> You'll mishear the plan and miss teaching. Listen during, write after.</li>
 <li><b>Writing patient-by-patient.</b> At pre-rounds open a skeleton (S+O auto-pulled) for everyone; fill A&amp;P after rounds. Finish 6 in the time you used to finish 3.</li>
-<li><b>Copy-forwarding yesterday's note.</b> Faster short-term, dangerous long-term, increasingly audited. Start fresh; smart phrases make it nearly as fast.</li>
+<li><b>Copy-forwarding yesterday's note.</b> Faster short-term, dangerous long-term, increasingly audited. Start fresh; smart phrases make it nearly as fast. And <b>always</b> update your notes, so a covering or senior resident knows what was going on if you aren't there — teamwork makes the team run smoothly.</li>
 <li><b>Writing the perfect note.</b> The patient is served by a note that conveys reality and a clinician who shows up rested tomorrow.</li>
 </ul>
 
 <div class="callout good"><div class="ttl">Focused — 175 words</div><p><b>S:</b> Feels better. Slept five hours. No SOB at rest. Tolerating diet. Asking about discharge.</p><p><b>O:</b> Tmax 38.1 (↓38.9). HR 78–88, BP 132/78, SpO₂ 96% on 2L (weaned from 4L). I/O +400. Comfortable, decreased BS RLL with mild crackles, otherwise unremarkable. WBC 11.2 (↓14.1), Cr 1.1 stable.</p><p><b>A/P:</b> 1) CAP HD2 — improving; continue ceftriaxone/azithro day 3 of 5, weaning O₂, no repeat imaging unless stall. 2) HTN — controlled on home metoprolol. 3) Dispo — d/c tomorrow pending PT + off O₂; PT pending, f/u 0700.</p></div>
 
 <h4><span class="dot"></span>Calibration</h4>
-<p>The 8-minute note is not lazy. It documents the same clinical reality with less typing. Quality and brevity are correlated, not opposed. Be the intern who is home for dinner — your patients will not suffer for it, and you'll be a better doctor tomorrow because you slept tonight.</p>
+<p>The 8-minute note is not lazy. It documents the same clinical reality with less typing. Being a good intern means getting the important things across to anybody reading your note while also protecting your time and getting home at a decent hour — burnout can come from writing notes all day, too.</p>
 `
   }
 ];
@@ -1861,11 +1861,96 @@ function renderTips(){
   };
 }
 
+/* ---------------- EMERGING LITERATURE ---------------- */
+/* Trainee-facing digest of practice-shaping trials, by IM subspecialty.
+   Teaching summaries — confirm specifics against current guidelines. */
+const TRIALS = [
+  {spec:"Cardiology", icon:"🫀", trials:[
+    {name:"DAPA-HF / EMPEROR-Reduced", year:"2019–20", q:"SGLT2 inhibitors in HFrEF, with or without diabetes?", bottom:"Dapagliflozin/empagliflozin cut CV death and HF worsening regardless of diabetes status.", why:"SGLT2 inhibitors are now one of the 4 pillars of guideline HFrEF therapy — start them early, not last."},
+    {name:"DELIVER / EMPEROR-Preserved", year:"2021–22", q:"Do SGLT2 inhibitors help HFpEF / HFmrEF?", bottom:"Reduced HF hospitalization/CV death — the first clearly effective drug class across preserved EF.", why:"There's finally an evidence-based therapy for HFpEF; SGLT2i now span the whole EF spectrum."},
+    {name:"STRONG-HF", year:"2022", q:"Rapidly up-titrate GDMT after an acute HF admission?", bottom:"Intensive early up-titration with close follow-up reduced death/readmission.", why:"Don't discharge on starter doses — titrate fast and see them back within days."},
+    {name:"ISCHEMIA", year:"2020", q:"Stable CAD with moderate–severe ischemia: routine cath or meds first?", bottom:"Routine invasive strategy did not reduce death or MI vs optimal medical therapy.", why:"Medical therapy first for stable CAD — angina relief, not survival, drives revascularization."},
+    {name:"EAST-AFNET 4", year:"2020", q:"Early rhythm control in recently diagnosed AF?", bottom:"Early rhythm control lowered CV death/stroke/HF vs usual (rate-first) care.", why:"Consider rhythm control early in new AF, not only after rate control fails."},
+    {name:"SELECT", year:"2023", q:"Semaglutide in overweight/obese patients with CVD but no diabetes?", bottom:"Reduced major adverse CV events (~20%).", why:"GLP-1 agonists now have CV-prevention data beyond diabetes."}
+  ]},
+  {spec:"Pulmonary & Critical Care", icon:"🫁", trials:[
+    {name:"ARDSNet (ARMA)", year:"2000", q:"Low tidal volume (6 mL/kg) vs traditional ventilation in ARDS?", bottom:"Lung-protective low-tidal-volume ventilation reduced mortality.", why:"6 mL/kg of ideal body weight is the standard of care — know it cold."},
+    {name:"PROSEVA", year:"2013", q:"Prone positioning in severe ARDS?", bottom:"Prone ≥16 h/day reduced mortality in severe ARDS (P/F <150).", why:"Prone early in severe ARDS — heavily used during COVID."},
+    {name:"RECOVERY (dexamethasone)", year:"2020", q:"Steroids in COVID-19 requiring oxygen/ventilation?", bottom:"Dexamethasone reduced mortality in patients needing O₂ or ventilation — not in those without.", why:"Steroids only when hypoxemic; a landmark platform-trial result."},
+    {name:"CAPE COD", year:"2023", q:"Hydrocortisone in severe community-acquired pneumonia in the ICU?", bottom:"Reduced 28-day mortality in severe CAP.", why:"Adds steroids to the toolkit for severe CAP."},
+    {name:"CLOVERS", year:"2023", q:"Restrictive vs liberal fluids in septic shock?", bottom:"No mortality difference between early vasopressors/restrictive fluids and liberal fluids.", why:"No mandate for large fixed fluid volumes — individualize resuscitation."}
+  ]},
+  {spec:"Nephrology", icon:"🫘", trials:[
+    {name:"DAPA-CKD", year:"2020", q:"SGLT2 inhibitor in CKD with/without diabetes?", bottom:"Dapagliflozin slowed kidney-function decline and reduced kidney failure/death.", why:"SGLT2 inhibitors are now foundational for proteinuric CKD."},
+    {name:"EMPA-KIDNEY", year:"2022", q:"Empagliflozin across a broad CKD population, including lower eGFR and non-diabetics?", bottom:"Slowed progression and reduced CV death across a wide CKD range.", why:"Extends SGLT2i benefit to much of the CKD clinic."},
+    {name:"FIDELIO-DKD / FIGARO-DKD", year:"2020–21", q:"Finerenone (nonsteroidal MRA) in diabetic CKD?", bottom:"Reduced kidney and CV events on top of RAAS blockade.", why:"A new drug class for diabetic kidney disease."},
+    {name:"STARRT-AKI", year:"2020", q:"Accelerated vs standard timing of dialysis initiation in AKI?", bottom:"Early initiation gave no survival benefit and more dialysis dependence.", why:"Don't rush RRT without an urgent indication (refractory K⁺, acidosis, volume, uremia)."},
+    {name:"SPRINT", year:"2015", q:"Intensive SBP <120 vs <140 in high-risk non-diabetics?", bottom:"Intensive control lowered CV events and mortality.", why:"Pushed BP targets lower — but note the automated, rested measurement technique."}
+  ]},
+  {spec:"Gastroenterology & Hepatology", icon:"🫄", trials:[
+    {name:"Villanueva (restrictive transfusion)", year:"2013", q:"Transfusion threshold in acute upper GI bleeding?", bottom:"Restrictive (transfuse at Hb 7) improved survival vs liberal (9).", why:"Transfuse stable GI bleeds at 7, not 9 — overtransfusion harms."},
+    {name:"Early TIPS (García-Pagán)", year:"2010", q:"Early TIPS in high-risk variceal bleeding (Child C, or Child B with active bleeding)?", bottom:"Early TIPS reduced rebleeding and mortality.", why:"Identify high-risk variceal bleeders for early TIPS, not just endoscopy + drugs."},
+    {name:"CONFIRM", year:"2021", q:"Terlipressin for hepatorenal syndrome (HRS-AKI)?", bottom:"Improved HRS reversal vs placebo (watch for respiratory failure).", why:"Supported US availability of terlipressin for HRS-AKI."},
+    {name:"ATTIRE", year:"2021", q:"Target albumin ≥30 g/L in hospitalized decompensated cirrhosis?", bottom:"No benefit, more pulmonary edema.", why:"Don't infuse albumin just to chase a level — reserve it for SBP, large-volume paracentesis, and HRS."}
+  ]},
+  {spec:"Endocrinology", icon:"⚖️", trials:[
+    {name:"NICE-SUGAR", year:"2009", q:"Tight glucose control (81–108) vs conventional (<180) in the ICU?", bottom:"Intensive control increased mortality, driven by hypoglycemia.", why:"Target ~140–180 mg/dL for inpatients — tight control is harmful."},
+    {name:"EMPA-REG OUTCOME", year:"2015", q:"Empagliflozin CV outcomes in type 2 diabetes with CVD?", bottom:"Reduced CV death and HF hospitalization — first SGLT2i CV-benefit trial.", why:"Choose diabetes agents for CV/renal benefit, not just A1c."},
+    {name:"SURMOUNT-1", year:"2022", q:"Tirzepatide (GIP/GLP-1) for obesity without diabetes?", bottom:"~20% mean body-weight loss.", why:"Incretin agents are reshaping obesity and diabetes management."},
+    {name:"FLOW", year:"2024", q:"Semaglutide in type 2 diabetes with CKD?", bottom:"Reduced kidney-disease progression and CV/all-cause death.", why:"GLP-1 agonists now carry kidney-outcome evidence too."}
+  ]},
+  {spec:"Infectious Disease", icon:"🦠", trials:[
+    {name:"POET", year:"2019", q:"Partial oral antibiotics for left-sided endocarditis after stabilization?", bottom:"Oral step-down was non-inferior to continued IV.", why:"Selected, stabilized endocarditis can finish on oral therapy."},
+    {name:"OVIVA", year:"2019", q:"Oral vs IV antibiotics for bone and joint infection?", bottom:"Oral was non-inferior to IV in the first 6 weeks.", why:"PO is often appropriate for osteomyelitis — challenge the reflex 'IV-only' culture."},
+    {name:"BALANCE", year:"2024", q:"7 vs 14 days of antibiotics for gram-negative bacteremia?", bottom:"7 days was non-inferior.", why:"Shorter courses for uncomplicated bacteremia — less is often enough."},
+    {name:"Short-course CAP", year:"guideline", q:"How long to treat community-acquired pneumonia?", bottom:"~5 days suffices if afebrile and clinically stable.", why:"Stop antibiotics when the patient has responded — duration is a quality metric."}
+  ]},
+  {spec:"Hematology & Oncology", icon:"🧬", trials:[
+    {name:"Caravaggio", year:"2020", q:"Apixaban vs LMWH for cancer-associated VTE?", bottom:"Apixaban non-inferior with no excess major bleeding.", why:"DOACs are reasonable for many cancer-associated clots (caveats: GI/GU tumors)."},
+    {name:"MINT", year:"2023", q:"Liberal (Hb 10) vs restrictive (7–8) transfusion in acute MI with anemia?", bottom:"A liberal strategy trended toward fewer cardiac events.", why:"ACS is the key exception to the restrictive-transfusion rule."},
+    {name:"ANNEXA-I", year:"2024", q:"Andexanet vs usual care for factor-Xa-inhibitor intracranial hemorrhage?", bottom:"Better hemostasis but more thrombotic events.", why:"Reversal is a real trade-off — know the benefit and the thrombotic cost."},
+    {name:"AMPLIFY-EXT", year:"2013", q:"Extended anticoagulation after unprovoked VTE?", bottom:"Low-dose apixaban cut recurrence with little excess bleeding.", why:"There's a low-bleeding option for extended secondary VTE prevention."}
+  ]},
+  {spec:"Rheumatology", icon:"🦴", trials:[
+    {name:"PEXIVAS", year:"2020", q:"Plasma exchange and reduced-dose steroids in severe ANCA vasculitis?", bottom:"PLEX did not reduce death/ESKD; reduced-dose steroids were non-inferior with fewer infections.", why:"Lower-dose steroid regimens; plasma exchange is no longer routine."},
+    {name:"GiACTA", year:"2017", q:"Tocilizumab in giant cell arteritis?", bottom:"Higher sustained, steroid-free remission.", why:"IL-6 blockade is a steroid-sparing option in GCA."}
+  ]},
+  {spec:"Neurology / Stroke", icon:"🧠", trials:[
+    {name:"DAWN / DEFUSE-3", year:"2018", q:"Thrombectomy 6–24 h out with favorable perfusion imaging?", bottom:"Large functional benefit in selected late-window large-vessel occlusions.", why:"Extended the thrombectomy window — perfusion imaging selects who still benefits."},
+    {name:"EXTEND-IA TNK / AcT", year:"2018–22", q:"Tenecteplase vs alteplase for acute ischemic stroke?", bottom:"TNK comparable/non-inferior, given as a single bolus.", why:"Tenecteplase is increasingly the preferred thrombolytic."},
+    {name:"INTERACT3", year:"2023", q:"A care bundle (incl. intensive BP lowering) in intracerebral hemorrhage?", bottom:"Improved functional outcomes.", why:"Early, aggressive bundled care matters in ICH."}
+  ]}
+];
+
+function renderLit(){
+  let h = `<div class="card">
+    <div class="eyebrow">Emerging literature</div>
+    <h2 class="sec">Trials to Know, by Subspecialty</h2>
+    <p class="lede">The practice-shaping internal-medicine trials that come up on rounds, on the wards, and on boards. Grouped by subspecialty — tap one to open it.</p>
+  </div>
+  <div class="litnote">⚠️ A teaching digest, not a guideline. Trials inform; guidelines codify. Confirm specifics — doses, populations, thresholds — against current society guidelines and your institution before acting.</div>`;
+  TRIALS.forEach((g, i) => {
+    h += `<div class="acc ${i===0?'open':''}">
+      <div class="acc-h"><div class="ai">${g.icon}</div><div class="at">${g.spec}</div><div class="ac">${g.trials.length}</div><div class="arr">›</div></div>
+      <div class="acc-body">
+        ${g.trials.map(t=>`<div class="trial">
+          <div><span class="tname">${t.name}</span><span class="tyear">${t.year}</span></div>
+          <div class="trow"><span class="lab">Q:</span> ${t.q}</div>
+          <div class="trow"><span class="lab">Bottom line:</span> ${t.bottom}</div>
+          <div class="trow why"><span class="lab">Why it matters:</span> ${t.why}</div>
+        </div>`).join("")}
+      </div>
+    </div>`;
+  });
+  view.className="fade"; view.innerHTML=h; window.scrollTo(0,0);
+  view.querySelectorAll(".acc-h").forEach(hd=>hd.onclick=()=>hd.parentElement.classList.toggle("open"));
+}
+
 /* ---------------- NAV ---------------- */
 function setActiveNav(){document.querySelectorAll(".nb").forEach(b=>b.classList.toggle("on",b.dataset.tab===tab));}
 document.querySelectorAll(".nb").forEach(b=>b.onclick=()=>{
   tab=b.dataset.tab;setActiveNav();
-  if(tab==="learn")renderLearn();else if(tab==="cases")renderCases();else if(tab==="tips")renderTips();else renderTools();
+  if(tab==="learn")renderLearn();else if(tab==="cases")renderCases();else if(tab==="lit")renderLit();else if(tab==="tips")renderTips();else renderTools();
 });
 
 /* ---------------- BOOT ---------------- */
